@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hughie LinkGame</string>
+    <string name="str_title_back_txt">back</string>
+    <string name="text">text</string>
+    <!-- 空字符串,用于ImageView android:contentDescription属性" -->
+    <string name="str_null_txt"></string>
+    
+    <!-- welcome guide feature text -->
+    <string name="str_guide_pager_feature_00_txt">Under the NASA and National Geographic\'s participation, This group of birds get out of the earth\'s gravity, run to the space, It\'s about the open beta in March 22th, 2012 in the "angry birds space". In order to let the birds rescued their precious "priceless eggs" successfully, National Geographics published a book, to provide the required to complete the task on the planets, satellites, the Milky way and other knowledge about outer space, and will be available in March 20th.</string>
+    <string name="str_guide_pager_feature_01_txt">Friends told me to show the latest iPhone and iPad version of "Need for Speed​​." Game rendering impressive is the section poised excellent game. However, the front end of the game is the typical deviation of the UI design case. But the interface has a large number of attribute data and other content, which provides much of the content when the players do not have time to make a decision. These contents can significantly alter their gaming experience, but the players tend to feel the change when rendering.</string>
+    <string name="str_guide_pager_feature_02_txt">March 31, the fourth CocoaChina Game Developers Conference and Cocos2D-X technology seminar held in Beijing. Mobile Internet elite from around the world exchange their experiences, learn from each other. At the same time we have also interviewed the CEO Mr. Chen Haozhi CocoaChina. He will give us the list of Apple\'s new algorithm Secret secret, did not bring us fishing up successful experience in the promotion, tucao and Prospects for Microsoft\'s Windows Phone platform for the future of 3D technology trends.</string>
+    <string name="str_guide_pager_feature_03_txt">Zombies BOSS endless version, is a new version of the Zombies series. Zombies across the ancient world! Chase with one hundred bone lady, fire baby and horn king and other demons army continued dedication to the pursuit of their dream of mind! The new sea and air battle scenes, five new Boss waiting for you! Each Boss has a strong ability! Different terrain new scene. Apart from fighting players can develop in the garden to collect plants. Endless fun!</string>
+    <string name="str_guide_pager_feature_04_txt">A long,long time ago, the evil Werewolves were sealed by the legendary Ninja Chicken. Now the Werewolves have finally broken the seal and sworn to revenge.They attacked the Ninja Village.Chaos spread, flame everywhere,But the Werewolves are not satisfied and not intended to stop.People are frightened. A true hero always comes back, here comes the Ninja Chicken ! To seal the Werewolves and win the peace once again, the great battle between the Ninja Chicken and the evil Werewolves continues …!</string>
+    
+    <!-- new version -->
+    <string name="str_new_version_title_txt">New version found</string>
+    
+    <!-- main screen -->
+    <string name="str_screen_tab_game_txt">Game</string>
+    <string name="str_screen_tab_information_txt">Inform</string>
+    <string name="str_screen_tab_circle_txt">Circle</string>
+    <string name="str_screen_tab_mine_txt">Mine</string>
+    <string name="str_screen_desktop_game_name_txt">Hughie LinkGame</string>
+    <string name="str_screen_desktop_game_description_txt">Enjoy Gaming, infinite happiness!</string>
+    
+    <!-- http loading -->
+    <string name="str_common_loading_dialog_info_txt">Loading...</string>
+    
+    <!-- game grid item -->
+    <string name="str_game_grid_item_games_txt">Game</string>
+    <string name="str_game_grid_item_rankings_txt">Rankings</string>
+    <string name="str_game_grid_item_shop_txt">Shop</string>
+    <string name="str_game_grid_item_kit_txt">Kit</string>
+    <string name="str_game_grid_item_about_txt">About</string>
+    <string name="str_game_grid_item_more_txt">More</string>
+    
+    <!-- game index  -->
+    <string name="str_game_index_title_txt">Home Index</string>
+    <string name="str_game_index_title_right_txt">Finish</string>
+    
+    <!-- game main -->
+    <string name="str_game_main_help_before_use_txt">Before Use</string>
+    <string name="str_game_main_help_after_use_txt">After Use</string>
+    <string name="str_game_main_help_refresh_content_txt">Refresh</string>
+    <string name="str_game_main_help_bomb_content_txt">Bomb</string>
+    <string name="str_game_main_help_hint_content_txt">Hint</string>
+    <string name="str_game_main_help_freeze_content_txt">Freeze</string>
+    <string name="str_game_main_toast_title_txt">Game Alert</string>
+    <string name="str_game_main_toast_refresh_content_txt">Sorry, you have no fresh!</string>
+    <string name="str_game_main_toast_bomb_content_txt">Sorry, you have no bomb!</string>
+    <string name="str_game_main_toast_hint_content_txt">Sorry, you have no hint!</string>
+    <string name="str_game_main_toast_freeze_content_txt">Sorry, you have no freeze!</string>
+    <string name="str_game_main_toast_freeze_in_time_content_txt">Sorry, your freeze is not out of time, pls click it later!</string>
+</resources>

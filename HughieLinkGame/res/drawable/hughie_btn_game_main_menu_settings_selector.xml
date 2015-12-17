@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- created by hughiezhang 20151016 15:11 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="false" android:drawable="@drawable/imgv_game_main_menu_btn_setting_normal" />
+    <item android:state_pressed="true" android:drawable="@drawable/imgv_game_main_menu_btn_setting_hot" />
+</selector>

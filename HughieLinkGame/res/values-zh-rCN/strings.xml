@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="app_name">长嘉连连看</string>
+    <string name="str_title_back_txt">返回</string>
+    <string name="text">文本</string>
+    <!-- 空字符串,用于ImageView android:contentDescription属性" -->
+    <string name="str_null_txt"></string>
+    
+    <!-- welcome guide feature text -->
+    <string name="str_guide_pager_feature_00_txt">NASA和美国国家地理的参与下，这群小鸟摆脱了地球引力，跑到了太空，这就是即将在2012年3月22日公测的《愤怒的小鸟：太空版》。为了让小鸟们成功解救出它们珍贵的“无价之蛋”，美国国家地理为此出版了一本书，来提供完成任务所需的关于行星、卫星、银河系等关于外太空的知识，并将于3月20日开始发售。</string>
+    <string name="str_guide_pager_feature_01_txt">好友曾向我展示了最新的iPhone和iPad版《极品飞车》。游戏的渲染效果令人印象深刻，是款蓄势待发的优秀游戏。但是，游戏的前端是典型的UI设计偏差案例。但界面中有大量的属性数据等内容，它在玩家没有时间做决定时提供了过多的内容。这些内容能够显著改变他们的游戏体验，但却在玩家往往感受不到变化的时候呈现。</string>
+    <string name="str_guide_pager_feature_02_txt">3月31日，第四届CocoaChina游戏开发者大会暨Cocos2D-X技术研讨会在北京举行。来自全世界的移动互联网精英在此交流经验、相互学习。同时这次我们有幸也采访到了CocoaChina的CEO陈昊芝先生。他将为我们揭秘苹果新榜单的算法秘密，并未我们带来捕鱼达人成功的推广经验，对微软Windows Phone平台的吐槽和对未来3D技术趋势的前瞻。</string>
+    <string name="str_guide_pager_feature_03_txt">植物大战僵尸BOSS无尽版,是植物大战僵尸系列的全新版本。僵尸穿越古代世界！追随着百骨夫人、火孩儿及牛角大王以及其他妖魔大军，继续执着地追求它们梦寐以求的脑子！全新的海陆空战斗场景，五个全新Boss恭候你的光临！每位Boss都有强力能力！全新的场景不同的地形。激战之余玩家还能在花园养成收集到的植物。乐趣永无止境！</string>
+    <string name="str_guide_pager_feature_04_txt">很久很久以前，狼人被忍者小鸡所封印。如今，狼人终于突破了限制，为了发泄他们的怒火，他们进攻了忍者村。狼烟滚滚，火光连天，无人能挡。可是狼人的愤怒还在继续，恐惧攫紧了人们的心脏。战士们都死了吗？不，这时忍者小鸡出现了。为了再次封印狼人，忍者小鸡与狼人的战争再次展开...</string>
+    
+    <!-- new version -->
+    <string name="str_new_version_title_txt">发现新版本</string>
+    
+    <!-- 主界面 -->
+    <string name="str_screen_tab_game_txt">游戏</string>
+    <string name="str_screen_tab_information_txt">咨讯</string>
+    <string name="str_screen_tab_circle_txt">圈子</string>
+    <string name="str_screen_tab_mine_txt">我的</string>
+    <string name="str_screen_desktop_game_name_txt">连连看</string>
+    <string name="str_screen_desktop_game_description_txt">游戏其中，欢乐无限！</string>
+    
+    <!-- http loading -->
+    <string name="str_common_loading_dialog_info_txt">正在加载...</string>
+    
+    <!-- game grid item -->
+    <string name="str_game_grid_item_games_txt">游戏</string>
+    <string name="str_game_grid_item_rankings_txt">排行榜</string>
+    <string name="str_game_grid_item_shop_txt">游戏商城</string>
+    <string name="str_game_grid_item_kit_txt">实用工具</string>
+    <string name="str_game_grid_item_about_txt">关于</string>
+    <string name="str_game_grid_item_more_txt">更多</string>
+    
+    <!-- game index  -->
+    <string name="str_game_index_title_txt">自定义首页</string>
+    <string name="str_game_index_title_right_txt">完成</string>
+    
+    <!-- game main -->
+    <string name="str_game_main_help_before_use_txt">使用前</string>
+    <string name="str_game_main_help_after_use_txt">使用后</string>
+    <string name="str_game_main_help_refresh_content_txt">刷新</string>
+    <string name="str_game_main_help_bomb_content_txt">炸弹</string>
+    <string name="str_game_main_help_hint_content_txt">提示</string>
+    <string name="str_game_main_help_freeze_content_txt">冻结时间</string>
+    <string name="str_game_main_toast_title_txt">游戏提醒</string>
+    <string name="str_game_main_toast_refresh_content_txt">对不起，你已经没有刷新了！</string>
+    <string name="str_game_main_toast_bomb_content_txt">对不起，你已经没有炸弹了！</string>
+    <string name="str_game_main_toast_hint_content_txt">对不起，你已经没有提示了！</string>
+    <string name="str_game_main_toast_freeze_content_txt">对不起，你已经没有冻结了！</string>
+    <string name="str_game_main_toast_freeze_in_time_content_txt">对不起，冻结时间还未结束，请稍后点击！</string>
+</resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="HughieApplication"  parent="@android:Theme.Light">
+    	<item name="android:windowBackground">@color/color_FFFFFFFF</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 关闭多点触控 <item name="android:windowEnableSplitTouch">false</item> -->
+    </style>
+    
+    <!-- 欢迎界面主题 -->
+    <style name="WelcomeActivity"  parent="@android:Theme.Light">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+    
+    <!-- 主界面tab radio button主题 -->
+    <style name="screen_tab_radio_button">
+        <item name="android:button">@null</item>
+        <item name="android:layout_width">@dimen/dp_00</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingTop">@dimen/dp_02</item>
+        <item name="android:paddingBottom">@dimen/dp_03</item>
+        <item name="android:paddingLeft">@dimen/dp_00</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/screen_tab_text_color_selector</item>
+        <item name="android:textSize">@dimen/sp_11</item>
+    </style>
+    
+    <!-- 自定义首页定制的checkbox -->
+    <style name="game_index_checkbox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/hughie_game_index_checkbox_selector</item>
+        <item name="android:paddingLeft">@dimen/dp_25</item>
+        <item name="android:maxHeight">@dimen/dp_10</item>
+    </style>
+    
+    <!-- activity跳转的动画效果 -->
+    <style name="theme_game_activity" mce_bogus="1" parent="@android:style/Animation.Activity">
+        <item name="android:windowAnimationStyle">@style/game_animation_activity</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    
+    <!-- activity跳转动画 -->
+    <style name="game_animation_activity" mce_bogus="1" parent="@android:style/Animation.Activity" >
+        <item name="android:activityOpenEnterAnimation">@anim/hughie_anim_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/hughie_anim_open_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/hughie_anim_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/hughie_anim_close_exit</item>
+    </style>
+</resources>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- created by hughiezhang 20150914 14:30 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/http_loading_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="@drawable/imgv_loading_dialog_white_bg"
+    android:orientation="horizontal">
+    <RelativeLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dp_08"
+        android:paddingBottom="@dimen/dp_16"
+        android:layout_gravity="center_vertical|center_horizontal">
+        <!-- loading progressbar -->
+    	<ProgressBar 
+	        android:id="@+id/loading_process_dialog_progressBar"
+	        style="?android:attr/progressBarStyleLarge"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:paddingTop="@dimen/dp_08"
+            android:paddingLeft="@dimen/dp_32"
+            android:paddingRight="@dimen/dp_32"
+            android:paddingBottom="@dimen/dp_08"
+	        android:indeterminate="false"
+	        android:indeterminateDrawable="@anim/hughie_anim_common_loading_dialog"
+        	/>
+    	<TextView 
+    	    android:id="@+id/loading_process_dialog_tv"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:layout_below="@+id/loading_process_dialog_progressBar"
+    	    android:layout_centerHorizontal="true"
+    	    android:paddingLeft="@dimen/dp_10"
+    	    android:paddingRight="@dimen/dp_10"
+    	    android:paddingBottom="@dimen/dp_05"
+    	    android:textColor="@color/color_FFBEBEBE"
+    	    android:textSize="@dimen/sp_15"
+    	    android:visibility="invisible"
+    	    />
+    </RelativeLayout>
+</LinearLayout>
+    

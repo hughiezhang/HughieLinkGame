@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- created by hughiezhang 20150909 18:36 -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- screen desktop arcbar layout -->
+    <RelativeLayout 
+        android:id="@+id/arcbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!-- screen desktop arcbar game -->
+        <ImageView 
+            android:id="@+id/screen_desktop_arcbar_game_imgv"
+            android:layout_width="@dimen/dp_44"
+            android:layout_height="@dimen/dp_44"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+             android:layout_marginLeft="@dimen/dp_43"
+            android:layout_marginBottom="@dimen/dp_72"
+            android:src="@drawable/hughie_screen_desktop_sidebar_game_selector"
+            />
+        <!-- screen desktop arcbar information -->
+        <ImageView 
+            android:id="@+id/screen_desktop_arcbar_information_imgv"
+            android:layout_width="@dimen/dp_44"
+            android:layout_height="@dimen/dp_44"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/dp_80"
+            android:layout_marginBottom="@dimen/dp_122"
+            android:src="@drawable/hughie_screen_desktop_sidebar_information_selector"
+            />
+        <!-- screen desktop arcbar circle -->
+        <ImageView 
+            android:id="@+id/screen_desktop_arcbar_circle_imgv"
+            android:layout_width="@dimen/dp_44"
+            android:layout_height="@dimen/dp_44"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/dp_125"
+            android:layout_marginBottom="@dimen/dp_163"
+            android:src="@drawable/hughie_screen_desktop_sidebar_circle_selector"
+            />
+        <!-- screen desktop arcbar mine -->
+        <ImageView 
+            android:id="@+id/screen_desktop_arcbar_mine_imgv"
+            android:layout_width="@dimen/dp_44"
+            android:layout_height="@dimen/dp_44"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/dp_176"
+            android:layout_marginBottom="@dimen/dp_196"
+            android:src="@drawable/hughie_screen_desktop_sidebar_mine_selector"
+            />
+    </RelativeLayout>
+    <!-- screen desktop arcbar background -->
+    <ImageView 
+        android:id="@+id/arcbar_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:scaleType="matrix"
+        android:src="@drawable/imgv_screen_desktop_arcbar_bg"
+        />
+    <!-- screen desktop arcbar theme -->
+    <ImageView 
+        android:id="@+id/screen_desktop_arcbar_theme_imgv"
+        android:layout_width="@dimen/dp_72"
+        android:layout_height="@dimen/dp_72"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/hughie_desktop_arcbar_close_selector"
+        />
+</RelativeLayout>

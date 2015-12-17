@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 颜色 FF表示不透明,00表示全透明;FFFFFF表示白色,000000表示黑色 -->
+<resources>
+    <color name="app_background">#FFEEEFF3</color>
+    <!-- 透明 -->
+    <color name="transparent">#00000000</color>
+    <!-- 深蓝 -->
+    <color name="bg_dark_blue">#6383CF</color>
+    <!-- 黑色 -->
+    <color name="color_black">#000000</color>
+    <!-- 白色 -->
+    <color name="color_white">#ffffff</color>
+    
+    <color name="color_FFFFFFFF">#FFFFFFFF</color>
+    <color name="color_7FFFFFFF">#7FFFFFFF</color>
+    <color name="color_00000000">#00000000</color>
+    <color name="color_20000000">#20000000</color>
+    <color name="color_FFBEBEBE">#FFBEBEBE</color>
+    <color name="color_FFF3F3F3">#FFF3F3F3</color>
+    <color name="color_F9F9F9">#F9F9F9</color>
+    <color name="color_9D55B8">#9D55B8</color>
+    <color name="color_EEEEEE">#EEEEEE</color>
+    <color name="color_0000FF">#0000FF</color>
+    
+    <!-- 刻度  选中 -->
+    <color name="sjhy_scale_sel">#2A2A2A</color>
+    <!-- 刻度 未选中 -->
+    <color name="sjhy_scale">#CCCCCC</color>
+</resources>
+

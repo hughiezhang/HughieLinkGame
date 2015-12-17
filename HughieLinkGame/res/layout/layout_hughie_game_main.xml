@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- created by hughiezhang 20151014 17:46 -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/game_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- game main layout -->
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout 
+            android:id="@+id/game_main_surface_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            />
+        <!--game main tool bottom imageview -->
+        <ImageView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/imgv_game_main_tool_bottom_background"
+            />
+        <!-- game main tool bottom layout -->
+        <LinearLayout 
+            android:id="@+id/game_main_tool_bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+			android:layout_marginBottom="@dimen/dp_45"
+			android:orientation="horizontal">
+            <!-- refresh button layout -->
+            <RelativeLayout 
+                android:layout_width="@dimen/dp_65"
+                android:layout_height="@dimen/dp_45"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@drawable/imgv_game_main_tool_rect_background">
+                <!-- tool refresh button -->
+                <Button 
+                    android:id="@+id/game_main_tool_bottom_refresh_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/hughie_btn_game_main_tool_bottom_refresh_selector"
+                    />
+                <!-- tool refresh number textView -->
+                <TextView 
+                    android:id="@+id/game_main_tool_bottom_refresh_num_tv"
+                    android:layout_width="@dimen/dp_18"
+                    android:layout_height="@dimen/dp_18"
+                    android:gravity="center"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/sp_14"
+                    />
+            </RelativeLayout>
+            <!-- bomb button layout -->
+            <RelativeLayout 
+                android:layout_width="@dimen/dp_65"
+                android:layout_height="@dimen/dp_45"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@drawable/imgv_game_main_tool_rect_background">
+                <!-- tool bomb button -->
+                <Button 
+                    android:id="@+id/game_main_tool_bottom_bomb_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/hughie_btn_game_main_tool_bottom_bomb_selector"
+                    />
+                <!-- tool bomb number textview -->
+                <TextView 
+                    android:id="@+id/game_main_tool_bottom_bomb_num_tv"
+                    android:layout_width="@dimen/dp_18"
+                    android:layout_height="@dimen/dp_18"
+                    android:gravity="center"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/sp_14"
+                    />
+            </RelativeLayout>
+            <!-- hint button layout -->
+            <RelativeLayout 
+                android:layout_width="@dimen/dp_65"
+                android:layout_height="@dimen/dp_45"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:background="@drawable/imgv_game_main_tool_rect_background">
+                <!-- tool hint button -->
+                <Button 
+                    android:id="@+id/game_main_tool_bottom_hint_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/hughie_btn_game_main_tool_bottom_hint_selector"
+                    />
+                <!-- tool hint number textview -->
+                <TextView 
+                    android:id="@+id/game_main_tool_bottom_hint_num_tv"
+                    android:layout_width="@dimen/dp_18"
+                    android:layout_height="@dimen/dp_18"
+                    android:gravity="center"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/sp_14"
+                    />
+            </RelativeLayout>
+            <!-- freeze button layout -->
+            <RelativeLayout 
+                android:layout_width="@dimen/dp_65"
+                android:layout_height="@dimen/dp_45"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:background="@drawable/imgv_game_main_tool_rect_background">
+                <!-- tool freeze button -->
+                <Button 
+                    android:id="@+id/game_main_tool_bottom_freeze_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/hughie_btn_game_main_tool_bottom_freeze_selector"
+                    />
+                <!-- tool freeze number textview -->
+                <TextView 
+                    android:id="@+id/game_main_tool_bottom_freeze_num_tv"
+                    android:layout_width="@dimen/dp_18"
+                    android:layout_height="@dimen/dp_18"
+                    android:gravity="center"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/sp_14"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+        <!-- tool top background -->
+        <ImageView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:contentDescription="@string/text"
+            android:scaleType="centerCrop"
+            android:src="@drawable/imgv_game_main_tool_top_background"
+            />
+        <!-- tool function layout -->
+        <RelativeLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_92"
+            android:layout_alignParentRight="true">
+            <!-- tool function timer tv -->
+            <TextView 
+                android:id="@+id/game_main_function_challenge_timer_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginBottom="@dimen/dp_35"
+                android:paddingLeft="@dimen/dp_40"
+                android:paddingTop="@dimen/dp_12"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/sp_12"
+                android:background="@drawable/imgv_game_main_function_score_background"
+                />
+            <!-- funtion wolf imageview -->
+            <ImageView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/imgv_game_main_function_icon_wolf"
+                />
+            <!-- function score textview -->
+            <TextView 
+                android:id="@+id/game_main_function_score_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="@dimen/dp_40"
+                android:layout_marginBottom="@dimen/dp_35"
+                android:paddingLeft="@dimen/dp_20"
+                android:paddingTop="@dimen/dp_12"
+                android:textStyle="bold"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/sp_14"
+                android:background="@drawable/imgv_game_main_function_score_background"
+                />
+            <!-- function chicken imageview -->
+            <ImageView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/imgv_game_main_function_icon_chicken"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+    <!-- menu button layout-->
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!-- menu settings button -->
+        <Button 
+            android:id="@+id/game_main_menu_settings_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@drawable/hughie_btn_game_main_menu_settings_selector"
+            />
+        <!-- menu pause button -->
+        <Button 
+            android:id="@+id/game_main_menu_pause_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_05"
+            android:layout_toRightOf="@+id/game_main_menu_settings_btn"
+            android:layout_below="@+id/game_main_menu_settings_btn"
+            android:background="@drawable/hughie_btn_game_main_menu_pause_selector"
+            android:visibility="gone"
+            />
+        <!-- menu music button -->
+        <Button 
+            android:id="@+id/game_main_menu_music_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_05"
+            android:layout_toLeftOf="@+id/game_main_menu_settings_btn"
+            android:layout_below="@+id/game_main_menu_settings_btn"
+            android:background="@drawable/hughie_btn_game_main_menu_musicon_selector"
+            android:visibility="gone"
+            />
+        <!-- menu help button -->
+        <Button 
+            android:id="@+id/game_main_menu_help_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/game_main_menu_music_btn"
+            android:layout_below="@+id/game_main_menu_settings_btn"
+            android:background="@drawable/hughie_btn_game_main_menu_help_selector"
+            android:visibility="gone"
+            />
+    </RelativeLayout>
+</FrameLayout>

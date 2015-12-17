@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- created by hughiezhang 20150907 18:22 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="false" android:drawable="@drawable/imgv_screen_tab_game_normal" />
+    <item android:state_checked="true" android:drawable="@drawable/imgv_screen_tab_game_hot" />
+</selector>

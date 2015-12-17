@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- created by hughiezhang 20151110 18:21 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:gravity="center"
+	android:orientation="vertical">
+    <!-- 显示you win的图片 -->
+    <ImageView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        android:contentDescription="@string/text"
+        android:scaleType="centerCrop"
+        android:src="@drawable/imgv_game_main_win_label"
+        />
+    <!-- 显示游戏赢局的动画 -->
+    <ImageView 
+        android:id="@+id/game_win_anim_imgv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/imgv_game_main_win_anim1"
+        />
+    <!-- 显示游戏赢局几颗星的布局 -->
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <!-- 第一颗星 -->
+        <ImageView 
+            android:id="@+id/game_win_star1_imgv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/text"
+            android:scaleType="centerCrop"
+            android:src="@drawable/imgv_game_main_win_star_unchecked"
+            />
+        <!-- 第二颗星 -->
+        <ImageView 
+            android:id="@+id/game_win_star2_imgv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/text"
+            android:scaleType="centerCrop"
+            android:src="@drawable/imgv_game_main_win_star_unchecked"
+            />
+        <!-- 第三颗星 -->
+        <ImageView 
+            android:id="@+id/game_win_star3_imgv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/text"
+            android:scaleType="centerCrop"
+            android:src="@drawable/imgv_game_main_win_star_unchecked"
+            />
+    </LinearLayout>
+    <!-- 游戏赢局操作按钮组布局 -->
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <!-- 重新开始按钮 -->
+        <Button 
+            android:id="@+id/game_win_replay_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_15"
+            android:background="@drawable/hughie_btn_game_main_replay_selector"
+            />
+        <!-- 下一关按钮 -->
+        <Button 
+            android:id="@+id/game_win_next_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:background="@drawable/hughie_btn_game_win_next_selector"
+            />
+    </LinearLayout>
+</LinearLayout>
+	

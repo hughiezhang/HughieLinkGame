@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- created  by hughiezhang 20151112 11:07-->
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:oneshot="false">
+    <item android:duration="200"  android:drawable="@drawable/imgv_game_main_win_anim1" />
+    <item android:duration="200"  android:drawable="@drawable/imgv_game_main_win_anim2" />
+    <item android:duration="200"  android:drawable="@drawable/imgv_game_main_win_anim3" />
+    <item android:duration="200"  android:drawable="@drawable/imgv_game_main_win_anim4" />
+</animation-list>

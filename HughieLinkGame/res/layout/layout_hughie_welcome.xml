@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- created by hughiezhang 20150827 17:38 -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!-- 欢迎界面icon图片 -->
+    <ImageView
+        android:id="@+id/welcome_icon_imgv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/text"
+        android:scaleType="centerCrop"
+        android:src="@drawable/imgv_welcome_splash" 
+        />
+    <!-- 显示welcome进度条布局 -->
+    <RelativeLayout 
+        android:id="@+id/welcome_progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!-- 显示welcome进度条 -->
+        <ProgressBar 
+            android:id="@+id/welcome_display_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dp_30"
+            />
+    </RelativeLayout>
+    <!-- 欢迎界面guide页面framelayout -->
+    <FrameLayout 
+        android:id="@+id/welcome_guide_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <!-- guide页面的viewpager -->
+        <android.support.v4.view.ViewPager 
+            android:id="@+id/welcome_guide_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <!-- guide页面的indicator点显示 -->
+        <LinearLayout 
+            android:id="@+id/welcome_guider_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/dp_50"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>

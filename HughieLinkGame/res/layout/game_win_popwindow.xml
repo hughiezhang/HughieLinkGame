@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/game_win_popupwindow"
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:gravity="center" 
+    android:background="@drawable/imgv_game_black_background">
+    <!-- image popup label -->
+    <ImageView 
+        android:id="@+id/imgv_win_popup_label" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content"
+        android:background="@drawable/imgv_game_main_win_label"
+        />
+    <!-- image popup anim -->
+    <ImageView 
+        android:id="@+id/imgv_win_popup_anim"
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content"
+        android:background="@drawable/imgv_game_main_win_anim1"
+        />
+    <!-- image popup star -->
+    <LinearLayout
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center" 
+        android:layout_gravity="center">
+        <!-- image star1 -->
+        <ImageView
+            android:id="@+id/imgv_win_popup_star1"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:background="@drawable/imgv_game_main_win_star_unchecked"
+            />
+        <!-- image star2 -->
+        <ImageView 
+            android:id="@+id/imgv_win_popup_star2"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:background="@drawable/imgv_game_main_win_star_unchecked"
+            />
+        <!-- image star3 -->
+        <ImageView 
+            android:id="@+id/imgv_win_popup_star3"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:background="@drawable/imgv_game_main_win_star_unchecked"
+            />
+    </LinearLayout>
+    <!-- image popup button -->
+    <LinearLayout
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:orientation="horizontal"
+        android:gravity="center" 
+        android:layout_gravity="center">
+        <!-- popup button replay -->
+        <Button 
+            android:id="@+id/btn_win_popup_replay"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:background="@drawable/hughie_btn_game_main_replay_selector"
+            />
+        <!-- popup button next -->
+        <Button 
+            android:id="@+id/btn_win_popup_next"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20.0dip"
+            android:background="@drawable/hughie_btn_game_win_next_selector" 
+            />
+    </LinearLayout>
+</LinearLayout>

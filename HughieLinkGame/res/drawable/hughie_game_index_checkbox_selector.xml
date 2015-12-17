@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- created by hughiezhang 20150922 15:45 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--未选中时效果-->
+    <item android:state_checked="false" android:drawable="@drawable/imgv_game_index_checkbox_uncheck" />
+    <!--选中且禁用-->
+    <item android:state_checked="true" android:state_enabled="false" android:drawable="@drawable/imgv_game_index_checkbox_disbled" />
+    <!--选中时效果-->
+    <item android:state_checked="true" android:state_enabled="true" android:drawable="@drawable/imgv_game_index_checkbox_checked" />
+</selector>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- created by hughiezhang 20151009 15:02 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="false" android:drawable="@drawable/imgv_game_welcome_btn_ranking_normal" />
+    <item android:state_pressed="true" android:drawable="@drawable/imgv_game_welcome_btn_ranking_hot" />
+</selector>

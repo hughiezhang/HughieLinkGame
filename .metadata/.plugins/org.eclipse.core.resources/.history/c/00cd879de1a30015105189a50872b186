@@ -1,0 +1,379 @@
+package cn.com.topsky.kkzx;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.Legend.LegendForm;
+import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.LimitLine.LimitLabelPosition;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.XAxis.XAxisPosition;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.components.YAxis.YAxisLabelPosition;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.CalculateCallbackListener;
+import com.github.mikephil.charting.utils.DefaultValueFormatter;
+import com.topsky.kkol.test.R;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import cn.com.topsky.patient.base.ShareBaseActivity;
+import cn.com.topsky.patient.common.FileManager;
+import cn.com.topsky.patient.common.SysoManager;
+import cn.com.topsky.patient.reflect.ReportAnalysisParameter;
+import cn.com.topsky.patient.util.DisplayUtil;
+import cn.com.topsky.patient.util.ReportAnalysisUtil;
+import cn.com.topsky.patient.widget.ReportAnalysisMarkerView;
+
+/**
+ * 对比分析明细activity
+ * @ClassName: ReportAnalysisDetailActivity
+ * @author hughiezhang
+ * @since 2015-10-29 15:39
+ */
+public class ReportAnalysisDetailActivity extends ShareBaseActivity {
+	public static final String Extra_Params = "REPORTANALYSISPARAMS";
+	
+	private LinearLayout mDetailLayout;								// 对比分析详情布局，用于截图分享
+	private TextView mDetailTitleNameTv;								// 对比分析详情项目名称
+	private TextView mDetailTitleDescriptionTv;						// 对比分析详情参考范围
+	private LineChart mDetailChart;										// 对比分析详情图表布局
+	private TextView mDetailSummaryTv;								// 对比分析详情健康趋势分析
+	
+	private ReportAnalysisParameter mReportAnalysisParameter;
+	
+	private Context mContext;
+	
+	//对比分析截图分享
+	private final String strReportAnalysisSharedURL = "http://t.cn/z8ZhcWn";
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_report_analysis_detail);
+		
+		this.mContext = ReportAnalysisDetailActivity.this;
+		
+		initReportAnalysisDetailTitle();
+		
+		mReportAnalysisParameter = (ReportAnalysisParameter) getIntent().getSerializableExtra(Extra_Params);
+		
+		initReportAnalysisDetailViews();
+	}
+	
+	// 初始化对比分析分析详情title布局
+	private void initReportAnalysisDetailTitle() {
+		setTVHead(R.string.str_report_analysis_title_txt);
+		Button btn_right = (Button)findViewById(R.id.btn_right);
+		btn_right.setVisibility(View.VISIBLE);
+		btn_right.setText("");
+		btn_right.setBackgroundResource(R.drawable.selector_btn_share);
+		setBtnRightPadding(0, 0, DisplayUtil.dip2px(mContext, 10), 0);
+	}
+	
+	// 初始化对比分析详情的相关控件
+	private void initReportAnalysisDetailViews() {
+		mDetailLayout = (LinearLayout) findViewById(R.id.report_analysis_detail_layout);
+		mDetailTitleNameTv = (TextView) findViewById(R.id.report_analysis_detail_title_name_tv);
+		mDetailTitleDescriptionTv = (TextView) findViewById(R.id.report_analysis_detail_title_description_tv);
+		mDetailChart = (LineChart) findViewById(R.id.report_analysis_detail_chart);
+		mDetailSummaryTv = (TextView) findViewById(R.id.report_analysis_detail_summary_tv);
+		
+		// 对比分析详情项目名称
+		mDetailTitleNameTv.setText(mReportAnalysisParameter.XMMC);
+		
+		// 对比分析详情参考范围说明
+		SysoManager.println("对比分析detail: " + " 项目名称: " + mReportAnalysisParameter.XMMC + " 最小值: " + 
+				mReportAnalysisParameter.CKFWMin  + " 最大值: " + mReportAnalysisParameter.CKFWMax);
+		//如果无参考范围，则隐藏
+		if(mReportAnalysisParameter.CKFWMax < 0 || mReportAnalysisParameter.CKFWMin < 0) {
+			mDetailTitleDescriptionTv.setVisibility(View.GONE);
+		//判断计量单位是否是%, 如是，则需要加上%, 所以显示的参考范围说明为（参考范围的最小值 + 计量单位 + 分隔符（-）+ 参考范围的最大值 + 计量单位 + "为正常"）
+		} else if(mReportAnalysisParameter.JLDW.equals(getString(R.string.str_report_analysis_percentage_txt))) {
+			mDetailTitleDescriptionTv.setVisibility(View.VISIBLE);
+			mDetailTitleDescriptionTv.setText(mReportAnalysisParameter.CKFWMin + mReportAnalysisParameter.JLDW + getString(R.string.str_report_analysis_divided_txt) 
+					+ mReportAnalysisParameter.CKFWMax + mReportAnalysisParameter.JLDW + getString(R.string.str_report_analysis_desc_txt));
+		} else {
+			mDetailTitleDescriptionTv.setVisibility(View.VISIBLE);
+			mDetailTitleDescriptionTv.setText(mReportAnalysisParameter.CKFWMin + getString(R.string.str_report_analysis_divided_txt) + mReportAnalysisParameter.CKFWMax 
+					+ mContext.getString(R.string.str_report_analysis_desc_txt));
+		}
+		
+		// 对比分析详情图表布局
+		// no description text
+		mDetailChart.setDescription("#######测试测试#####");
+		mDetailChart.setNoDataTextDescription(mContext.getString(R.string.str_report_analysis_nodata_description_txt));
+		// enable value highlighting
+		mDetailChart.setHighlightEnabled(true);
+		// enable touch gestures
+		mDetailChart.setTouchEnabled(true);
+		// enable scaling and dragging
+		mDetailChart.setDragEnabled(true);
+//				holder.mReportAnalysisChart.setScaleEnabled(true);
+		// if disabled, scaling can be done on x- and y-axis separately
+		mDetailChart.setPinchZoom(false);
+		// create a custom MarkerView (extend MarkerView) and specify the layout to use for it
+		ReportAnalysisMarkerView mReportAnalysisMarkerView = new ReportAnalysisMarkerView(mContext, R.layout.layout_report_analysis_marker_view, 
+				ReportAnalysisUtil.getValueDigit(mReportAnalysisParameter.JGZList));
+		// set the marker to the chart
+		mDetailChart.setMarkerView(mReportAnalysisMarkerView);
+		
+		final LineChart mChart = mDetailChart;
+		mDetailChart.setCalculateCallbackListener(new CalculateCallbackListener() {
+			@Override
+			public void onCalculateCallback() {
+				mChart.setVisibleXRange(0, 4);
+			}
+		});
+		mDetailChart.setBackgroundColor(0x66e8edf1);
+		
+		YAxis mReportYAxis = mDetailChart.getAxisLeft();
+		mReportYAxis.removeAllLimitLines();
+		//是否显示单位
+		mReportYAxis.setIsShowChartUnit(!TextUtils.isEmpty(mReportAnalysisParameter.JLDW));
+		mReportYAxis.setChartUnitString(TextUtils.isEmpty(mReportAnalysisParameter.JLDW) ? "" : mReportAnalysisParameter.JLDW.trim());
+		
+		XAxis mReportXAxis = mDetailChart.getXAxis();
+		mReportXAxis.setPosition(XAxisPosition.BOTTOM);
+		mReportXAxis.setLabelsToSkip(0);
+		
+		final ReportAnalysisParameter mAnalysisParameterTemp = mReportAnalysisParameter;
+		//判断参考范围的最大值和最小值是否为-1，如果都为-1说明无参考范围，故无需设置设置点以及点的数值的颜色
+		if(mAnalysisParameterTemp.CKFWMax < 0 && mAnalysisParameterTemp.CKFWMin < 0){
+			mReportYAxis.setStartAtZero(ReportAnalysisUtil.getJGZMin(mAnalysisParameterTemp.JGZList) * 3 / 4 == 0 ? true :false);
+			mReportYAxis.setAxisMinValue((float) (ReportAnalysisUtil.getJGZMin(mAnalysisParameterTemp.JGZList) * 3 / 4));				//设置Y轴的最小值
+			mReportYAxis.setAxisMaxValue((float) (ReportAnalysisUtil.getJGZMax(mAnalysisParameterTemp.JGZList) * 5 / 4));				//设置Y轴的最大值
+			mReportYAxis.setLabelCount(4);
+			mReportYAxis.setValueFormatter(new DefaultValueFormatter(ReportAnalysisUtil.getValueDigit(mAnalysisParameterTemp.JGZList)));
+		//存在参考范围	
+		} else {
+			//判断参考范围最小值是否小于参考范围的四分之一并且结果值都不小于参考范围的最小值，如果小于则起点直接为参考范围的最小值
+			if(mAnalysisParameterTemp.CKFWMin < (mAnalysisParameterTemp.CKFWMax - mAnalysisParameterTemp.CKFWMin) / 4 && 
+					mAnalysisParameterTemp.CKFWMin <= ReportAnalysisUtil.getJGZMin(mAnalysisParameterTemp.JGZList)){
+				mReportYAxis.setStartAtZero(false);
+				mReportYAxis.setAxisMinValue((float) mAnalysisParameterTemp.CKFWMin);
+				mReportYAxis.setAxisMaxValue((float) (ReportAnalysisUtil.getJGZMax(mAnalysisParameterTemp.JGZList) > (mAnalysisParameterTemp.CKFWMax * 2 - mAnalysisParameterTemp.CKFWMin) ? 
+						(ReportAnalysisUtil.getJGZMax(mAnalysisParameterTemp.JGZList) / (mAnalysisParameterTemp.CKFWMax - mAnalysisParameterTemp.CKFWMin)  + 1) * (mAnalysisParameterTemp.CKFWMax - mAnalysisParameterTemp.CKFWMin) : 
+							(mAnalysisParameterTemp.CKFWMax * 2 - mAnalysisParameterTemp.CKFWMin)));
+				//设置参考范围
+				LimitLine mLimitLine1 = new LimitLine((float)mAnalysisParameterTemp.CKFWMax, "");
+				mLimitLine1.setLineWidth(4f);
+				mLimitLine1.setLabelPosition(LimitLabelPosition.POS_RIGHT);
+				mLimitLine1.setLineColor(Color.parseColor("#FFE4B5"));
+				
+				LimitLine mLimitLine2 = new LimitLine((float)mAnalysisParameterTemp.CKFWMin, "");
+				mLimitLine2.setLineWidth(4f);
+				mLimitLine2.setLabelPosition(LimitLabelPosition.POS_RIGHT);
+				
+				mReportYAxis.addLimitLine(mLimitLine1);
+				mReportYAxis.addLimitLine(mLimitLine2);
+				
+				//显示Y轴的刻度值
+				mReportYAxis.setLabelCount(4);
+			//判断参考范围的最小值是否大于参考范围，如果大于参考范围且结果值的最小值大于2 * CKFWMin - CKFWMax, 则以2 * CKFWMin - CKFWMax为起点
+			} else if(mAnalysisParameterTemp.CKFWMin * 2 - mAnalysisParameterTemp.CKFWMax >= 0 && 
+					ReportAnalysisUtil.getJGZMin(mAnalysisParameterTemp.JGZList) >= mAnalysisParameterTemp.CKFWMin * 2 - mAnalysisParameterTemp.CKFWMax){
+				mReportYAxis.setStartAtZero(mAnalysisParameterTemp.CKFWMin * 2 - mAnalysisParameterTemp.CKFWMax == 0 ? true : false);
+				//设置最大值和最小值
+				mReportYAxis.setAxisMinValue((float) (mAnalysisParameterTemp.CKFWMin * 2 - mAnalysisParameterTemp.CKFWMax));
+				mReportYAxis.setAxisMaxValue((float) (ReportAnalysisUtil.getJGZMax(mAnalysisParameterTemp.JGZList) > (mAnalysisParameterTemp.CKFWMax * 2 - mAnalysisParameterTemp.CKFWMin) ? 
+						(ReportAnalysisUtil.getJGZMax(mAnalysisParameterTemp.JGZList) / (mAnalysisParameterTemp.CKFWMax - mAnalysisParameterTemp.CKFWMin)  + 1) * (mAnalysisParameterTemp.CKFWMax - mAnalysisParameterTemp.CKFWMin) : 
+							(mAnalysisParameterTemp.CKFWMax * 2 - mAnalysisParameterTemp.CKFWMin)));
+				//设置参考范围
+				LimitLine mLimitLine1 = new LimitLine((float) mAnalysisParameterTemp.CKFWMax, "");
+				mLimitLine1.setLineWidth(4f);
+				mLimitLine1.setLabelPosition(LimitLabelPosition.POS_RIGHT);
+				mLimitLine1.setLineColor(Color.parseColor("#FFE4B5"));
+				
+				LimitLine mLimitLine2 = new LimitLine((float) mAnalysisParameterTemp.CKFWMin, "");
+				mLimitLine2.setLineWidth(4f);
+				mLimitLine2.setLabelPosition(LimitLabelPosition.POS_RIGHT);
+				
+				mReportYAxis.addLimitLine(mLimitLine1);
+				mReportYAxis.addLimitLine(mLimitLine2);
+				
+				//显示Y轴的刻度值
+				mReportYAxis.setLabelCount(4);
+			//判断参考范围的最小值是否大于参考范围，如果大于参考范围且结果值的最小值小于2 * CKFWMin - CKFWMax, 则以ReportAnalysisUtil.getJGZMin(mAnalysisParameter.JGZList) * 3 / 4为起点
+			} else if(mAnalysisParameterTemp.CKFWMin * 2 - mAnalysisParameterTemp.CKFWMax >= 0 && 
+					ReportAnalysisUtil.getJGZMin(mAnalysisParameterTemp.JGZList) < mAnalysisParameterTemp.CKFWMin * 2 - mAnalysisParameterTemp.CKFWMax){
+				mReportYAxis.setStartAtZero(ReportAnalysisUtil.getJGZMin(mAnalysisParameterTemp.JGZList) * 3 / 4 == 0 ? true :false);
+				//设置最大值和最小值
+				mReportYAxis.setAxisMinValue((float) (ReportAnalysisUtil.getJGZMin(mAnalysisParameterTemp.JGZList) * 3 / 4));
+				mReportYAxis.setAxisMaxValue((float) (ReportAnalysisUtil.getJGZMax(mAnalysisParameterTemp.JGZList) > (mAnalysisParameterTemp.CKFWMax * 2 - mAnalysisParameterTemp.CKFWMin) ? 
+						(ReportAnalysisUtil.getJGZMax(mAnalysisParameterTemp.JGZList) / (mAnalysisParameterTemp.CKFWMax - mAnalysisParameterTemp.CKFWMin)  + 1) * (mAnalysisParameterTemp.CKFWMax - mAnalysisParameterTemp.CKFWMin) : 
+							(mAnalysisParameterTemp.CKFWMax * 2 - mAnalysisParameterTemp.CKFWMin)));
+				//设置参考范围
+				LimitLine mLimitLine1 = new LimitLine((float) mAnalysisParameterTemp.CKFWMax, "");
+				mLimitLine1.setLineWidth(4f);
+				mLimitLine1.setLabelPosition(LimitLabelPosition.POS_RIGHT);
+				mLimitLine1.setLineColor(Color.parseColor("#FFE4B5"));
+				
+				LimitLine mLimitLine2 = new LimitLine((float) mAnalysisParameterTemp.CKFWMin, "");
+				mLimitLine2.setLineWidth(4f);
+				mLimitLine2.setLabelPosition(LimitLabelPosition.POS_RIGHT);
+				
+				mReportYAxis.addLimitLine(mLimitLine1);
+				mReportYAxis.addLimitLine(mLimitLine2);
+				
+				//显示Y轴的刻度值
+				mReportYAxis.setLabelCount(4);
+			} else {
+				mReportYAxis.setStartAtZero(true);
+				//设置最大值和最小值
+				mReportYAxis.setAxisMinValue(0);
+				mReportYAxis.setAxisMaxValue((float) (ReportAnalysisUtil.getJGZMax(mAnalysisParameterTemp.JGZList) > (mAnalysisParameterTemp.CKFWMax * 2 - mAnalysisParameterTemp.CKFWMin) ? 
+						(ReportAnalysisUtil.getJGZMax(mAnalysisParameterTemp.JGZList) / (mAnalysisParameterTemp.CKFWMax - mAnalysisParameterTemp.CKFWMin)  + 1) * (mAnalysisParameterTemp.CKFWMax - mAnalysisParameterTemp.CKFWMin) : 
+						(mAnalysisParameterTemp.CKFWMax * 2 - mAnalysisParameterTemp.CKFWMin)));
+				//设置参考范围
+				LimitLine mLimitLine1 = new LimitLine((float) mAnalysisParameterTemp.CKFWMax, "");
+				mLimitLine1.setLineWidth(4f);
+				mLimitLine1.setLabelPosition(LimitLabelPosition.POS_RIGHT);
+				mLimitLine1.setLineColor(Color.parseColor("#FFE4B5"));
+				
+				LimitLine mLimitLine2 = new LimitLine((float) mAnalysisParameterTemp.CKFWMin, "");
+				mLimitLine2.setLineWidth(4f);
+				mLimitLine2.setLabelPosition(LimitLabelPosition.POS_RIGHT);
+				
+				mReportYAxis.addLimitLine(mLimitLine1);
+				mReportYAxis.addLimitLine(mLimitLine2);
+				
+				mReportYAxis.setLabelCount(ReportAnalysisUtil.getJGZMax(mAnalysisParameterTemp.JGZList) > (mAnalysisParameterTemp.CKFWMax * 2 - mAnalysisParameterTemp.CKFWMin) ? 
+						((int)(ReportAnalysisUtil.getJGZMax(mAnalysisParameterTemp.JGZList) / (mAnalysisParameterTemp.CKFWMax - mAnalysisParameterTemp.CKFWMin))) + 2 : 4);
+			}
+		}
+		
+		mReportYAxis.enableGridDashedLine(10f, 10f, 0f);
+		// limit lines are drawn behind data (and not on top)
+		mReportYAxis.setDrawLimitLinesBehindData(false);
+		mReportYAxis.setDrawAxisLine(false);
+		mReportYAxis.setPosition(YAxisLabelPosition.INSIDE_CHART);
+		
+		mDetailChart.getAxisRight().setEnabled(false);
+		
+		// add data
+		mDetailChart.setData(getReportAnalysisDetailData(mReportAnalysisParameter));
+		
+		mDetailChart.animateXY(2500, 2500, Easing.EasingOption.EaseInOutQuart, Easing.EasingOption.EaseInOutQuart);
+		
+		// get the legend (only possible after setting data)
+		Legend mReportLegent = mDetailChart.getLegend();
+		// modify the legend ...
+        // l.setPosition(LegendPosition.LEFT_OF_CHART);
+		mReportLegent.setForm(LegendForm.LINE);
+		
+		// 对比分析详情健康趋势分析
+		mDetailSummaryTv.setVisibility(View.GONE);
+	}
+	
+	private LineData getReportAnalysisDetailData(ReportAnalysisParameter reportAnalysisParameter) {
+		SysoManager.println("cececeshishii : " + reportAnalysisParameter.toString());
+		
+		ArrayList<Entry> mReportYVals = new ArrayList<Entry>();
+		ArrayList<Integer> mReportCircleColor = new ArrayList<Integer>();
+		
+		List<Double> mJGZList = new ArrayList<Double>();
+		mJGZList.add(0.0);
+		mReportCircleColor.add(Color.parseColor("#26ADDF"));
+		for(Double jgz : reportAnalysisParameter.JGZList){
+			mJGZList.add(jgz);
+			if((jgz < reportAnalysisParameter.CKFWMin || jgz > reportAnalysisParameter.CKFWMax) && 
+					reportAnalysisParameter.CKFWMax >= 0 && reportAnalysisParameter.CKFWMin >= 0){
+				mReportCircleColor.add(Color.parseColor("#e25d39"));
+			} else {
+				mReportCircleColor.add(Color.parseColor("#26ADDF"));
+			}
+		}
+		mJGZList.add(0.0);
+		
+		List<String> mJCRQList = new ArrayList<String>();
+		mJCRQList.add("0");
+		for(String jcrq : reportAnalysisParameter.JCRQList){
+			mJCRQList.add(jcrq);
+		}
+		mJCRQList.add("0");
+		
+		mReportCircleColor.add(Color.parseColor("#26ADDF"));
+		
+		for(int i = 0; i < reportAnalysisParameter.JCRQList.size() + 2; i++){
+			if(i < mJGZList.size())
+				mReportYVals.add(new Entry(Float.valueOf(mJGZList.get(i).toString()), i));
+		}
+		
+		// create a dataset and give it a type
+		LineDataSet mReportSet = new LineDataSet(mReportYVals, "时间");
+		// set the line to be drawn like this "- - - - - -"
+		mReportSet.setColor(Color.parseColor("#26ADDF"));
+		mReportSet.setCircleColors(mReportCircleColor);
+		mReportSet.setLineWidth(2f);
+		mReportSet.setCircleSize(4f);
+		mReportSet.setValueTextColor(Color.parseColor("#26ADDF"));
+		mReportSet.setValueTextSize(10f);
+		mReportSet.setCircleColorHole(Color.parseColor("#26ADDF"));
+		mReportSet.setFillColor(Color.parseColor("#C8DCDA"));
+		mReportSet.setDrawFilled(true);
+		mReportSet.setDrawCubic(true);
+		mReportSet.setCubicIntensity(0.2f);
+		
+		ArrayList<LineDataSet> mReportDataSets = new ArrayList<LineDataSet>();
+		mReportDataSets.add(mReportSet);
+		
+		return new LineData(mJCRQList, mReportDataSets);
+	}
+	
+	@Override
+	public void onClickHeadRight(View v) {
+		super.onClickHeadRight(v);
+		try {
+			setUmengShareImageContent(getString(R.string.str_report_analysis_title_txt), 
+					getScreenShotFilePath(mDetailLayout, FileManager.getReportAnalysisRootFilePath()), getString(R.string.str_report_analysis_shared_content_txt), 
+					strReportAnalysisSharedURL);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public String getScreenShotFilePath(View view, String path) throws Exception{
+		Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+		final Canvas canvas = new Canvas(bitmap);
+		view.draw(canvas);  //dispatchDraw
+    	
+    	FileOutputStream fos = null;
+    	File file = new File(path + /*File.separator +*/ "viewshot.png");
+        try {
+            File sddir = new File(path);
+            if (!sddir.exists()) {
+                sddir.mkdirs();
+            }
+            
+            fos = new FileOutputStream(file);
+            if (fos != null) {
+            	bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                fos.flush();
+                fos.close();
+            }
+            
+        } catch (Exception e) {
+            Log.e("TakeViewShot", e.getCause().toString());
+            e.printStackTrace();
+        }
+        
+		return file.getAbsolutePath();
+    }
+}

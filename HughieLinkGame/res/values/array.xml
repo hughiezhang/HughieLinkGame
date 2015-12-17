@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <!-- screen desktop sidebar name array -->
+    <string-array name="screen_desktop_sidebar_name">
+        <item>@string/str_screen_tab_game_txt</item>
+        <item>@string/str_screen_tab_information_txt</item>
+        <item>@string/str_screen_tab_circle_txt</item>
+        <item>@string/str_screen_tab_mine_txt</item>
+    </string-array>
+</resources>

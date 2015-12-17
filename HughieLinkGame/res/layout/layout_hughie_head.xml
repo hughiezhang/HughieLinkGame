@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_50"
+    android:background="?attr/appMainColor">
+    <!-- title返回按钮布局 -->
+    <LinearLayout 
+        android:id="@+id/title_return_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingRight="@dimen/dp_10"
+        android:gravity="center"
+        android:clickable="true"
+        android:onClick="onClickHeadLeft"
+        android:background="@drawable/hughie_btn_selector">
+        <Button 
+            android:id="@+id/title_left_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:gravity="center"
+            android:background="@drawable/hughie_btn_back_selector"
+            android:visibility="visible"
+            />
+        <TextView 
+            android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="@dimen/dp_04"
+	        android:textColor="@color/white"
+	        android:textSize="@dimen/sp_16"
+	        android:text="@string/str_title_back_txt"
+            />
+    </LinearLayout>
+    <!-- title标题 -->
+    <TextView 
+        android:id="@+id/title_head_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_20"
+        android:ellipsize="end" 
+        android:singleLine="true"
+        android:maxEms="8"
+        android:text="@string/text"
+        />
+    <!-- title右侧按钮 -->
+    <Button 
+        android:id="@+id/title_right_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/dp_10"
+        android:onClick="onClickHeadRight"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14"
+        android:text=""
+        android:background="@drawable/hughie_btn_right_selector"
+        android:visibility="gone"
+        />
+</RelativeLayout>

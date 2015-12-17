@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- created by hughiezhang 20151012 09:55 -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/imgv_game_map_background">
+    <!-- game house 4 -->
+    <LinearLayout 
+        android:id="@+id/game_map_house4_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
+        <!-- game house 4 go button -->
+        <Button 
+            android:id="@+id/game_map_house4_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/hughie_btn_game_map_go_selector"
+            android:visibility="invisible"
+            />
+        <!-- game house 4 imageview -->
+        <ImageView 
+            android:id="@+id/game_map_house4_imgv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/text"
+            android:scaleType="centerCrop"
+            android:src="@drawable/imgv_game_map_house4_normal"
+            />
+    </LinearLayout>
+    <!-- game house 5 -->
+    <LinearLayout 
+        android:id="@+id/game_map_house5_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true">
+        <!-- game house 5 go button -->
+        <Button 
+            android:id="@+id/game_map_house5_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/hughie_btn_game_map_go_selector"
+            android:visibility="invisible"
+            />
+        <!-- game house 5 imageview -->
+        <ImageView 
+            android:id="@+id/game_map_house5_imgv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/text"
+            android:scaleType="centerCrop"
+            android:src="@drawable/imgv_game_map_house5_normal"
+            />
+    </LinearLayout>
+    <!-- game house 2 -->
+    <LinearLayout 
+        android:id="@+id/game_map_house2_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
+        <!-- game house 2 go button -->
+        <Button 
+            android:id="@+id/game_map_house2_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/hughie_btn_game_map_go_selector"
+            android:visibility="invisible"
+            />
+        <!-- game house 2 imageview -->
+        <ImageView 
+            android:id="@+id/game_map_house2_imgv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/text"
+            android:scaleType="centerCrop"
+            android:src="@drawable/imgv_game_map_house2_normal"
+            />
+    </LinearLayout>
+    <!-- game house 3 -->
+    <LinearLayout 
+        android:id="@+id/game_map_house3_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true">
+        <!-- game house 3 go button -->
+        <Button 
+            android:id="@+id/game_map_house3_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/hughie_btn_game_map_go_selector"
+            android:visibility="invisible"
+            />
+        <!-- game house 3 imageview -->
+        <ImageView 
+            android:id="@+id/game_map_house3_imgv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/text"
+            android:scaleType="centerCrop"
+            android:src="@drawable/imgv_game_map_house3_normal"
+            />
+    </LinearLayout>
+    <!-- game house 1 -->
+    <LinearLayout 
+        android:id="@+id/game_map_house1_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
+        <!-- game house 1 go button -->
+        <Button 
+            android:id="@+id/game_map_house1_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/hughie_btn_game_map_go_selector"
+            android:visibility="invisible"
+            />
+        <!-- game house 1 imageview -->
+        <ImageView 
+            android:id="@+id/game_map_house1_imgv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/text"
+            android:scaleType="centerCrop"
+            android:src="@drawable/imgv_game_map_house1_hot"
+            />
+    </LinearLayout>
+</RelativeLayout>

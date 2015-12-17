@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/game_help_popupwindow"
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:gravity="center" 
+    android:background="@drawable/imgv_game_black_background">
+    <RelativeLayout 
+    	android:layout_width="fill_parent" 
+       	android:layout_height="fill_parent">
+	    <!-- help image scroll layout-->
+	    <ScrollView 
+        	android:id="@+id/game_help_scroller"
+           	android:layout_width="wrap_content" 
+           	android:layout_height="wrap_content"
+           	android:layout_centerHorizontal="true"
+           	android:scrollbars="vertical" 
+           	android:scrollbarThumbVertical="@drawable/imgv_game_scroll_background">
+            <RelativeLayout 
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content">
+                <!-- help image -->
+                <ImageView
+                    android:id="@+id/imgv_help"
+                    android:layout_width="wrap_content" 
+                    android:layout_height="wrap_content" 
+                    android:background="@drawable/imgv_game_help_background"
+                    />
+                <!-- before use text of refresh -->
+                <TextView 
+                    android:id="@+id/tv_help_refresh_before"
+                    android:layout_width="wrap_content" 
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="235.0dip" 
+                    android:layout_marginTop="630.0dip"
+                    android:textColor="#ffffffff" 
+                    android:text="@string/str_game_main_help_before_use_txt"
+                    />
+                <!-- after use text of refresh -->
+                <TextView 
+                    android:id="@+id/tv_help_refresh_after"
+                    android:layout_width="wrap_content" 
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="235.0dip" 
+                    android:layout_marginTop="670.0dip"
+                    android:textColor="#ffffffff" 
+                    android:text="@string/str_game_main_help_after_use_txt"
+                    />
+                <!-- before use text of boom -->
+                <TextView 
+                    android:id="@+id/tv_help_boom_before"
+                    android:layout_width="wrap_content" 
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="235.0dip" 
+                    android:layout_marginTop="716.0dip"
+                    android:textColor="#ffffffff"
+                    android:text="@string/str_game_main_help_before_use_txt"
+                    />
+                <!-- after use text of boom -->
+                <TextView 
+                    android:id="@+id/tv_help_boom_after"
+                    android:layout_width="wrap_content" 
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="235.0dip" 
+                    android:layout_marginTop="759.0dip"
+                    android:textColor="#ffffffff" 
+                    android:text="@string/str_game_main_help_after_use_txt"
+                    />
+                <!-- before use text of hint -->
+                <TextView 
+                    android:id="@+id/tv_help_hint_before"
+                    android:layout_width="wrap_content" 
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="235.0dip" 
+                    android:layout_marginTop="800.0dip"
+                    android:textColor="#ffffffff" 
+                    android:text="@string/str_game_main_help_before_use_txt"
+                    />
+                <!-- after use text of hint -->
+                <TextView 
+                    android:id="@+id/tv_help_hint_after"
+                    android:layout_width="wrap_content" 
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="235.0dip" 
+                    android:layout_marginTop="840.0dip"
+                    android:textColor="#ffffffff" 
+                    android:text="@string/str_game_main_help_after_use_txt"
+                    />
+                <!-- before use text of freeze -->
+                <TextView 
+                    android:id="@+id/tv_help_freeze_before"
+                    android:layout_width="wrap_content" 
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="235.0dip" 
+                    android:layout_marginTop="884.0dip"
+                    android:textColor="#ffffffff" 
+                    android:text="@string/str_game_main_help_before_use_txt"
+                    />
+                <!-- after use text of freeze -->
+                <TextView 
+                    android:id="@+id/tv_help_freeze_after"
+                    android:layout_width="wrap_content" 
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="235.0dip" 
+                    android:layout_marginTop="912.0dip"
+                    android:textColor="#ffffffff" 
+                    android:text="@string/str_game_main_help_after_use_txt"
+                    />
+                <!-- help refresh text -->
+                <TextView 
+                    android:id="@+id/tv_help_refresh_txt"
+                    android:layout_width="70.0dip" 
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginLeft="20.0dip" 
+                    android:layout_marginTop="680.0dip"
+                    android:textColor="#ffffffff" 
+                    android:text="@string/str_game_main_help_refresh_content_txt"
+                    />
+                <!-- help boom text -->
+                <TextView 
+                    android:id="@+id/tv_help_boom_txt"
+                    android:layout_width="70.0dip" 
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginLeft="20.0dip" 
+                    android:layout_marginTop="767.0dip"
+                    android:textColor="#ffffffff" 
+                    android:text="@string/str_game_main_help_bomb_content_txt"
+                    />
+                <!-- help hint text -->
+                <TextView 
+                    android:id="@+id/tv_help_hint_txt"
+                    android:layout_width="70.0dip" 
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginLeft="20.0dip" 
+                    android:layout_marginTop="858.0dip"
+                    android:textColor="#ffffffff" 
+                    android:text="@string/str_game_main_help_hint_content_txt"
+                    />
+                <!-- help freeze text -->
+                <TextView 
+                    android:id="@+id/tv_help_freeze_txt"
+                    android:layout_width="70.0dip"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginLeft="20.0dip" 
+                    android:layout_marginTop="923.0dip"
+                    android:textColor="#ffffffff" 
+                    android:text="@string/str_game_main_help_freeze_content_txt"
+                    />
+        	</RelativeLayout>
+		</ScrollView>
+        <!-- help button arrow down -->
+        <Button 
+            android:id="@+id/btn_help_arrow_down"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" 
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="10.0dip" 
+            android:layout_marginBottom="15.0dip"
+            android:background="@drawable/imgv_game_main_help_arrow_down1"
+            />
+        <!-- help button arrow up -->
+        <Button 
+            android:id="@+id/btn_help_arrow_up"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true" 
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10.0dip" 
+            android:layout_marginRight="10.0dip"
+            android:background="@drawable/imgv_game_main_help_arrow_up1" 
+            android:visibility="invisible"
+            />
+        <!-- help button close -->
+        <Button 
+            android:id="@+id/btn_help_close"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5.0dip" 
+            android:layout_marginTop="5.0dip"
+            android:background="@drawable/hughie_btn_game_help_close_selector"
+            />
+	</RelativeLayout>
+</LinearLayout>

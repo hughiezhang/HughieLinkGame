@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <declare-styleable name="HughieAppTheme">
+        <attr name="appMainColor" format="color" />
+        <attr name="appBackColor" format="color" />
+        <attr name="fontMainTitleColor" format="color" />
+        <attr name="fontSubTitleColor" format="color" />
+        <attr name="fontTipColor" format="color" />
+        <attr name="fontHintDefaultColor" format="color" />
+        <attr name="fontHintFocusColor" format="color" />
+    </declare-styleable>
+    
+    <!-- round imageview -->
+    <declare-styleable name="roundedimageview">
+        <attr name="border_thickness" format="dimension" />
+        <attr name="border_inside_color" format="color" />
+        <attr name="border_outside_color" format="color" />
+    </declare-styleable>
+</resources>

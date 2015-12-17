@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- created by hughiezhang 20150908 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/app_background">
+    
+    <!-- title header -->
+    <include layout="@layout/layout_hughie_head" />
+    
+    <!-- 游戏广告布局 -->
+    <FrameLayout 
+        android:id="@+id/game_ad_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/imgv_noimage_default">
+    </FrameLayout>
+    <com.hughie.linkgame.widget.HughieDragGridView 
+        android:id="@+id/game_main_gv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="3"
+       	/>
+</LinearLayout>

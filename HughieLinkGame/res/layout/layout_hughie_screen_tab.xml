@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- created by hughiezhang 20150907 17:21 -->
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/appBackColor"
+        android:orientation="vertical">
+        <FrameLayout 
+            android:id="@android:id/tabcontent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" 
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8px"
+            android:background="?attr/fontSubTitleColor" 
+            />
+        
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            <!-- tab group -->
+            <RadioGroup 
+                android:id="@+id/screen_tab_rg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@android:color/white"
+                android:orientation="horizontal">
+                <!-- 游戏tab -->
+                <RadioButton 
+                    android:id="@+id/screen_tab_game_rb"
+                    style="@style/screen_tab_radio_button"
+                    android:drawableTop="@drawable/hughie_screen_tab_game_selector"
+                    android:text="@string/str_screen_tab_game_txt"
+                    />
+                <!-- 咨询tab -->
+                <RadioButton 
+                    android:id="@+id/screen_tab_information_rb"
+                    style="@style/screen_tab_radio_button"
+                    android:drawableTop="@drawable/hughie_screen_tab_information_selector"
+                    android:text="@string/str_screen_tab_information_txt"
+                    />
+                <!-- 圈子tab -->
+                <RadioButton 
+                    android:id="@+id/screen_tab_circle_rb"
+                    style="@style/screen_tab_radio_button"
+                    android:drawableTop="@drawable/hughie_screen_tab_circle_selector"
+                    android:text="@string/str_screen_tab_circle_txt"
+                    />
+                <!-- 我的tab -->
+                <RadioButton 
+                    android:id="@+id/screen_tab_mine_rb"
+                    style="@style/screen_tab_radio_button"
+                    android:drawableTop="@drawable/hughie_screen_tab_mine_selector"
+                    android:text="@string/str_screen_tab_mine_txt"
+                    />
+            </RadioGroup>
+        </FrameLayout>
+    </LinearLayout>
+</TabHost>

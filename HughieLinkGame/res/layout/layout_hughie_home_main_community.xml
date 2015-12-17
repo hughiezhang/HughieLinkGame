@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- created by hughiezhang 20150908 14:31 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/app_background">
+    
+    <!-- title header -->
+    <include layout="@layout/layout_hughie_head" />
+</LinearLayout>

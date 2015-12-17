@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- created by hughiezhang 20151012 11:47 -->
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <alpha 
+        android:repeatCount="infinite"
+        android:repeatMode="reverse"
+        android:fromAlpha="0.7"
+        android:toAlpha="1.0"
+        android:duration="1000"
+        />
+    <scale 
+        android:repeatCount="infinite"
+        android:repeatMode="reverse"
+        android:fromXScale="0.8"
+        android:toXScale="1.0"
+        android:fromYScale="0.8"
+        android:toYScale="1.0"
+        android:pivotX="50.0%"
+        android:pivotY="100.0%"
+        android:duration="1000"
+        />
+</set>
