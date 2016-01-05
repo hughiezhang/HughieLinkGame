@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- created by hughiezhang 20160105 15:21 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+    <!-- 显示pause的图片 -->
+    <ImageView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        android:contentDescription="@string/text"
+        android:scaleType="centerCrop"
+        android:src="@drawable/imgv_game_main_pause_label"
+        />
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <!-- game pause apps01 -->
+        <Button 
+            android:id="@+id/game_pause_apps01_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/dp_02"
+            android:background="@drawable/imgv_game_main_pause_apps01"
+            />
+        <!-- game pause apps02 -->
+        <Button 
+            android:id="@+id/game_pause_apps02_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/dp_02"
+            android:background="@drawable/imgv_game_main_pause_apps02"
+            />
+    </LinearLayout>
+</LinearLayout>

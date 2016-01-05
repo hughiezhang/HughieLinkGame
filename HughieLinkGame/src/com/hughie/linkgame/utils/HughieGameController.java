@@ -635,8 +635,13 @@ public class HughieGameController {
 		}
 	}
 	
-	//暂停功能
-	public void pause(){
+	/**
+	 * @title setGamePause
+	 * @description 暂停功能
+	 * @param
+	 * @return
+	 */
+	public void setGamePause() {
 		if (mGameSurfaceTimer != null){
 			mGameSurfaceTimer.cancel();
 			mGameResume = true;

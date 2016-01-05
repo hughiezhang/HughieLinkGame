@@ -43,6 +43,8 @@ public class HughieGameHelpPopupWindow extends PopupWindow {
 	private Button mHelpArrowUpBtn;									//向上翻页按钮
 	private Button mHelpCloseBtn;										//关闭按钮
 	
+	private int helpState;
+	
 	private HughieGameApplication mGameApplication;
 	private Context mContext;
 	
@@ -50,7 +52,7 @@ public class HughieGameHelpPopupWindow extends PopupWindow {
 	
 	public static final int MSG_HELP_BUTTON_ARROWDOWN = 1000;
 	public static final int MSG_HELP_BUTTON_ARROWUP = 1001;
-	
+
 	public HughieGameHelpPopupWindow(Context context, HughieGameApplication gameApplication) {
 		super(context);
 		this.mContext = context;
@@ -202,7 +204,7 @@ public class HughieGameHelpPopupWindow extends PopupWindow {
 			@Override
 			public void onClick(View v) {
 				if(mGameHelpListener != null)
-					mGameHelpListener.onGameHelpCloseClick();
+					mGameHelpListener.onGameHelpCloseClick(helpState);
 			}
 		});
 	}
@@ -231,7 +233,17 @@ public class HughieGameHelpPopupWindow extends PopupWindow {
 		this.mGameHelpListener = listener;
 	} 
 	
+	public int getHelpState() {
+		return helpState;
+	}
+
+	public void setHelpState(int helpState) {
+		this.helpState = helpState;
+	}
+
+
+
 	public static interface IGameHelpPopupWindowListener {
-		public void onGameHelpCloseClick();
+		public void onGameHelpCloseClick(int helpState);
 	}
 }

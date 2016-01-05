@@ -12,22 +12,18 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -37,7 +33,6 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.hughie.linkgame.R;
@@ -81,27 +76,6 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 	private TextView mToolHintNumTv;						// tool hint num textview
 	private Button mToolFreezeBtn;							// tool freeze button
 	private TextView mToolFreezeNumTv;					// tool freeze num textview
-	
-	
-	//定义game help layout
-	private ScrollView gameHelp_scroller;				//game help布局的scroller
-	private TextView gameHelp_refresh_before_tv;		//game help refresh before text
-	private TextView gameHelp_refresh_after_tv;			//game help refresh after text
-	private TextView gameHelp_boom_before_tv;			//game help boom before text
-	private TextView gameHelp_boom_after_tv;			//game help boom after text
-	private TextView gameHelp_hint_before_tv;			//game help hint before text
-	private TextView gameHelp_hint_after_tv;			//game help hint after text
-	private TextView gameHelp_freeze_before_tv;			//game help freeze before text
-	private TextView gameHelp_freeze_after_tv;			//game help freeze after text
-	private TextView gameHelp_refresh_tv;				//game help refresh text
-	private TextView gameHelp_boom_tv;					//game help boom text
-	private TextView gameHelp_hint_tv;					//game help hint text
-	private TextView gameHelp_freeze_tv;				//game help freeze text
-	private Button gameHelp_arrow_down_btn;				//game help button arrow down
-	private Button gameHelp_arrow_up_btn;				//game help button arrow up
-	private Button gameHelp_close_btn;					//game help close button
-	//定义popup window 
-	private AlertDialog dlg_help;						//game help popup window
 	
 	private int mGameMode;									// 获取游戏的模式，剧情模式还是挑战模式
 	private String mGameSort;									// 显示连连看显示的theme，food，animal还是fruit模式
@@ -182,8 +156,8 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 	public static final int TAG_BTN_TOOL_HINT = 2008;
 	public static final int TAG_BTN_TOOL_FREEZE = 2009;
 	
-	public static final int MSG_HELP_BUTTON_ARROWDOWN = 3000;
-	public static final int MSG_HELP_BUTTON_ARROWUP = 3001;
+	public static final int TAG_GAME_HELP_STATE_BEGINING = 0;													// 第一关开始打开游戏，进入游戏帮助的界面
+	public static final int TAG_GAME_HELP_STATE_MENU = 1;														// 点击按钮后，进入游戏帮助的界面
 	
 	// 通过设置和访问activity的state变量，就可以知道游戏处于什么状态
 	private static int mGameState = TAG_GAME_MAIN_STATE_MENU;
@@ -250,10 +224,9 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 				new Handler().postDelayed(new Runnable() {
 					@Override
 					public void run() {
-						showGameHelpWindow();
+						showGameHelpWindow(TAG_GAME_HELP_STATE_BEGINING);
 					}
 				}, 300);
-//				ShowGameHelpMenu();
 			} else {
 				mGameController.startGame(HughieGameMainActivity.this, 0);
 			} 
@@ -266,7 +239,7 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 		} else if(gameState == TAG_GAME_MAIN_STATE_PAUSE) {
 			ShowGameResumeMenu();
 		} else if(gameState == TAG_GAME_MAIN_STATE_HELP) {
-			ShowGameHelpMenu();
+			showGameHelpWindow(TAG_GAME_HELP_STATE_MENU);
 		}
 		
 		initGameMainViews();
@@ -806,13 +779,13 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 	 * @param
 	 * @return 
 	 */
-	private void showGameHelpWindow() {
+	private void showGameHelpWindow(int gameHelpState) {
 		if(mGameHelpPopupWindow == null) {
 			mGameHelpPopupWindow = new HughieGameHelpPopupWindow(mContext, mGameApplication);
 			mGameHelpPopupWindow.setIGameHelpPopupWindowListener(new IGameHelpPopupWindowListener() {
 				@Override
-				public void onGameHelpCloseClick() {
-					if(mGameLevel == 1) {
+				public void onGameHelpCloseClick(int helpState) {
+					if(mGameLevel == 1 && helpState == TAG_GAME_HELP_STATE_BEGINING) {
 						mGameHelpPopupWindow.dismiss();
 						mGameHelpPopupWindow.clearGameArrowAnimation();
 						mGameController.startGame(HughieGameMainActivity.this, 0);
@@ -824,193 +797,8 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 				}
 			});
 		}
-		
+		mGameHelpPopupWindow.setHelpState(gameHelpState);
 		mGameHelpPopupWindow.showAtLocation(((Activity)mContext).findViewById(R.id.game_main_layout), Gravity.TOP, 0, 0);
-	}
-	
-	//game调用help之后进行的操作
-	private void ShowGameHelpMenu(){
-		dlg_help = new AlertDialog.Builder(this).setCancelable(false).create();
-		dlg_help.show();
-		Window help_window = dlg_help.getWindow();
-		help_window.setContentView(R.layout.game_help_popwindow);
-		
-		//game help scroller
-		gameHelp_scroller = (ScrollView)help_window.findViewById(R.id.game_help_scroller);
-		//game help refresh before text
-		gameHelp_refresh_before_tv = (TextView)help_window.findViewById(R.id.tv_help_refresh_before);
-		//game help refresh after text
-		gameHelp_refresh_after_tv = (TextView)help_window.findViewById(R.id.tv_help_refresh_after);
-		//game help boom before text
-		gameHelp_boom_before_tv = (TextView)help_window.findViewById(R.id.tv_help_boom_before);
-		//game help boom after text
-		gameHelp_boom_after_tv = (TextView)help_window.findViewById(R.id.tv_help_boom_after);
-		//game help hint before text
-		gameHelp_hint_before_tv = (TextView)help_window.findViewById(R.id.tv_help_hint_before);
-		//game help hint after text
-		gameHelp_hint_after_tv = (TextView)help_window.findViewById(R.id.tv_help_hint_after);
-		//game help freeze before text
-		gameHelp_freeze_before_tv = (TextView)help_window.findViewById(R.id.tv_help_freeze_before);
-		//game help freeze after text
-		gameHelp_freeze_after_tv = (TextView)help_window.findViewById(R.id.tv_help_freeze_after);
-		//game help refresh text
-		gameHelp_refresh_tv = (TextView)help_window.findViewById(R.id.tv_help_refresh_txt);
-		//game help boom text
-		gameHelp_boom_tv = (TextView)help_window.findViewById(R.id.tv_help_boom_txt);
-		//game help hint text
-		gameHelp_hint_tv = (TextView)help_window.findViewById(R.id.tv_help_hint_txt);
-		//game help freeze text
-		gameHelp_freeze_tv = (TextView)help_window.findViewById(R.id.tv_help_freeze_txt);
-		//game help arrow down button
-		gameHelp_arrow_down_btn = (Button)help_window.findViewById(R.id.btn_help_arrow_down);
-		//game help arrow up button
-		gameHelp_arrow_up_btn = (Button)help_window.findViewById(R.id.btn_help_arrow_up);
-		//game help close button
-		gameHelp_close_btn = (Button)help_window.findViewById(R.id.btn_help_close);
-		
-		//设置字体
-		Typeface fonttype_help = Typeface.createFromAsset(this.getAssets(), "hobostd.otf");
-		gameHelp_refresh_before_tv.setTypeface(fonttype_help);
-		gameHelp_refresh_after_tv.setTypeface(fonttype_help);
-		gameHelp_boom_before_tv.setTypeface(fonttype_help);
-		gameHelp_boom_after_tv.setTypeface(fonttype_help);
-		gameHelp_hint_before_tv.setTypeface(fonttype_help);
-		gameHelp_hint_after_tv.setTypeface(fonttype_help);
-		gameHelp_freeze_before_tv.setTypeface(fonttype_help);
-		gameHelp_freeze_after_tv.setTypeface(fonttype_help);
-		gameHelp_refresh_tv.setTypeface(fonttype_help);
-		gameHelp_boom_tv.setTypeface(fonttype_help);
-		gameHelp_hint_tv.setTypeface(fonttype_help);
-		gameHelp_freeze_tv.setTypeface(fonttype_help);
-		
-		LinearLayout game_help_popupwindow = (LinearLayout)help_window.findViewById(R.id.game_help_popupwindow);
-		LayoutParams sq_layout_help_para = game_help_popupwindow.getLayoutParams();
-		sq_layout_help_para.width = mGameApplication.displayWidth - 5;
-		sq_layout_help_para.height = mGameApplication.displayHeight - 32;
-		game_help_popupwindow.setLayoutParams(sq_layout_help_para);
-		
-		//设置button arrow down的animation
-		gameHelp_arrow_down_btn.setBackgroundResource(R.anim.hughie_anim_geme_help_arraw_down);
-		final AnimationDrawable help_animationDrawable_arrowdown = (AnimationDrawable)gameHelp_arrow_down_btn.getBackground();
-		gameHelp_arrow_down_btn.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-			boolean mHelpFirst = true;
-			@Override
-			public boolean onPreDraw() {
-				// TODO Auto-generated method stub
-				if(this.mHelpFirst){
-					help_animationDrawable_arrowdown.start();
-					this.mHelpFirst = false;
-				}
-				
-				return true;
-			}
-		});
-		
-		//设置button arrow up的animation
-		gameHelp_arrow_up_btn.setBackgroundResource(R.anim.hughie_anim_geme_help_arraw_up);
-		final AnimationDrawable help_animationDrawable_arrowup = (AnimationDrawable)gameHelp_arrow_up_btn.getBackground();
-		gameHelp_arrow_up_btn.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-			boolean mHelpFirst = true;
-			@Override
-			public boolean onPreDraw() {
-				// TODO Auto-generated method stub
-				if(this.mHelpFirst){
-					help_animationDrawable_arrowup.start();
-					this.mHelpFirst = false;
-				}
-				
-				return true;
-			}
-		});
-		
-		//game help arrow down button监听器 
-		gameHelp_arrow_down_btn.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				gameHelp_scroller.scrollBy(0, 1000);
-				gameHelp_arrow_down_btn.setVisibility(View.GONE);
-				gameHelp_arrow_up_btn.setVisibility(View.VISIBLE);
-			}
-		});
-		
-		//game help arrow up button监听器
-		gameHelp_arrow_up_btn.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				gameHelp_scroller.scrollBy(0, -1000);
-				gameHelp_arrow_down_btn.setVisibility(View.VISIBLE);
-				gameHelp_arrow_up_btn.setVisibility(View.GONE);
-			}
-		});
-		
-		//game help close button监听器
-		gameHelp_close_btn.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				if(mGameLevel == 1){
-					gameFirstHelpDismiss();
-				}else{
-					gameHelpDismiss();
-				}
-				
-			}
-		});
-		
-		gameHelp_scroller.setOnTouchListener(new OnTouchListener(){
-			@Override
-			public boolean onTouch(View view, MotionEvent motionEvent) {
-				// TODO Auto-generated method stub
-				if(motionEvent.getAction() == MotionEvent.ACTION_MOVE){
-					if(gameHelp_scroller.getChildAt(0).getMeasuredHeight() - view.getHeight() == view.getScrollY()){
-						mGameHelpHandle.sendEmptyMessage(MSG_HELP_BUTTON_ARROWDOWN);
-					}else if(view.getScrollY() == 0){
-						mGameHelpHandle.sendEmptyMessage(MSG_HELP_BUTTON_ARROWUP);
-					}
-				}
-				
-				return false;
-			}
-		});
-	}
-	
-	//game help handler
-	Handler mGameHelpHandle = new Handler(){
-		public void handleMessage(Message msg){
-			if(msg.what == MSG_HELP_BUTTON_ARROWDOWN){
-				gameHelp_arrow_down_btn.setVisibility(View.GONE);
-				gameHelp_arrow_up_btn.setVisibility(View.VISIBLE);
-			}else if(msg.what == MSG_HELP_BUTTON_ARROWUP){
-				gameHelp_arrow_down_btn.setVisibility(View.VISIBLE);
-				gameHelp_arrow_up_btn.setVisibility(View.GONE);
-			}
-		}
-	};
-	
-	//game help popup window dismiss
-	public void gameHelpDismiss(){
-		//关闭help popupwindow
-		dlg_help.cancel();
-		//game help arrow down button清除animation
-		gameHelp_arrow_down_btn.clearAnimation();
-		//game help arrow up button清除animation
-		gameHelp_arrow_up_btn.clearAnimation();
-		//继续游戏
-		mGameController.resumeGame(HughieGameMainActivity.this);
-	}
-	
-	//game help popup window first level dismiss
-	public void gameFirstHelpDismiss(){
-		//关闭help popupwindow
-		dlg_help.cancel();
-		//game help arrow down button清除animation
-		gameHelp_arrow_down_btn.clearAnimation();
-		//game help arrow up button清除animation
-		gameHelp_arrow_up_btn.clearAnimation();
-		int n = 0;
-		mGameController.startGame(HughieGameMainActivity.this, n);
 	}
 	
 	@Override
@@ -1037,7 +825,7 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 	
 	/**
 	 * @title setGameState
-	 * @description 设置游戏结束的状态，并加载显示鞋面
+	 * @description 设置游戏结束的状态，并加载显示界面
 	 * @param gameState：游戏结束的状态
 	 * @return
 	 */
@@ -1051,63 +839,88 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 		}
 	}
 	
-	//显示game help
-	public void showGameHelp(){
-		//暂停游戏
-		mGameController.pause();
+	/**
+	 * @title setGameHelpState
+	 * @description 点击显示帮助页面后的操作
+	 * @param
+	 * @return
+	 */
+	public void setGameHelpState() {
+		// 暂停游戏
+		mGameController.setGamePause();
 		mGameState = TAG_GAME_MAIN_STATE_HELP;
 		loadGameMainViews(TAG_GAME_MAIN_STATE_HELP);
 	}
 	
-	//游戏暂定
-	protected void gamePause(){
-		mGameController.pause();
+	/**
+	 * @title setGamePauseState
+	 * @description 游戏暂定
+	 * @param
+	 * @return
+	 */
+	public void setGamePauseState() {
+		// 暂停游戏
+		mGameController.setGamePause();
 		mGameState = TAG_GAME_MAIN_STATE_PAUSE;
 		loadGameMainViews(TAG_GAME_MAIN_STATE_PAUSE);
 	}
 	
-	//显示并展开button setting界面
-	public void showGameSetting(){
-		//设置music button的show translate animation
-		TranslateAnimation gameTranslateAnimation_music_button_show = new TranslateAnimation(45.0F * this.mGameApplication.density, 
-				0.0F, -40.0F * this.mGameApplication.density, 0.0F);
-		gameTranslateAnimation_music_button_show.setDuration(300L);
-		//设置help button的show translate animation
-		TranslateAnimation gameTranslateAnimation_help_button_show = new TranslateAnimation(0.0F, 0.0F, 
-				-40.0F * this.mGameApplication.density, 0.0F);
-		gameTranslateAnimation_help_button_show.setDuration(300L);
-		//设置pause button的show translate animation
-		TranslateAnimation gameTranslateAnimation_pause_button_show = new TranslateAnimation(-45.0F * this.mGameApplication.density, 
-				0.0F, -40.0F * this.mGameApplication.density, 0.0F);
-		gameTranslateAnimation_pause_button_show.setDuration(300L);
+	/**
+	 * @title showGameSettings
+	 * @description 显示并展开game settings
+	 * @param
+	 * @return
+	 */
+	public void showGameSettings() {
+		// 设置game music button显示的translateAnimation
+		TranslateAnimation mShowMusicTranslateAnimation = new TranslateAnimation(45.0F * mGameApplication.density, 0.0F, 
+				-40.0F * mGameApplication.density, 0.0F);
+		mShowMusicTranslateAnimation.setDuration(300L);
 		mMenuMusicBtn.setVisibility(View.VISIBLE);
-		mMenuMusicBtn.startAnimation(gameTranslateAnimation_music_button_show);
+		mMenuMusicBtn.startAnimation(mShowMusicTranslateAnimation);
+		
+		// 设置game help button显示的translateAnimation
+		TranslateAnimation mShowHelpTranslateAnimation = new TranslateAnimation(0.0F, 0.0F, -40.0F * mGameApplication.density, 
+				0.0F);
+		mShowHelpTranslateAnimation.setDuration(300L);
 		mMenuHelpBtn.setVisibility(View.VISIBLE);
-		mMenuHelpBtn.startAnimation(gameTranslateAnimation_help_button_show);
+		mMenuHelpBtn.startAnimation(mShowHelpTranslateAnimation);
+		
+		// 设置game pause button显示的translateAnimation
+		TranslateAnimation mShowPauseTranslateAnimation = new TranslateAnimation(-45.0F * mGameApplication.density, 0.0F, 
+				-40.0F * mGameApplication.density, 0.0F);
+		mShowPauseTranslateAnimation.setDuration(300L);
 		mMenuPauseBtn.setVisibility(View.VISIBLE);
-		mMenuPauseBtn.startAnimation(gameTranslateAnimation_pause_button_show);
+		mMenuPauseBtn.startAnimation(mShowPauseTranslateAnimation);
 	}
 	
-	//隐藏并合拢button setting界面
-	public void unShowGameSetting(){
-		//设置music button的unshow translate animation
-		TranslateAnimation gameTranslateAnimation_music_button_unshow = new TranslateAnimation(0.0F, 45.0F * this.mGameApplication.density, 
-				0.0F, -40.0F * this.mGameApplication.density);
-		gameTranslateAnimation_music_button_unshow.setDuration(300L);
-		//设置help button的unshow translate animation
-		TranslateAnimation gameTranslateAnimation_help_button_unshow = new TranslateAnimation(0.0F,  0.0F, 
-				0.0F, -40.0F * this.mGameApplication.density);
-		gameTranslateAnimation_help_button_unshow.setDuration(300L);
-		//设置pause button的unshow translate animation
-		TranslateAnimation gameTranslateAnimation_pause_button_unshow = new TranslateAnimation(0.0F, -45.0F * this.mGameApplication.density, 
-				0.0F, -40.0F * this.mGameApplication.density);
-		gameTranslateAnimation_pause_button_unshow.setDuration(300L);
+	/**
+	 * @title unShowGameSettings
+	 * @description 隐藏并合拢game settings
+	 * @param
+	 * @return
+	 */
+	public void unShowGameSettings() {
+		// 设置game music button隐藏的translateAnimation
+		TranslateAnimation mUnshowMusicTranslateAnimation = new TranslateAnimation(0.0F, 45.0F * mGameApplication.density, 
+				0.0F, -40.0F * mGameApplication.density);
+		mUnshowMusicTranslateAnimation.setDuration(300L);
 		mMenuMusicBtn.setVisibility(View.GONE);
-		mMenuMusicBtn.startAnimation(gameTranslateAnimation_music_button_unshow);
+		mMenuMusicBtn.startAnimation(mUnshowMusicTranslateAnimation);
+		
+		// 设置game help button隐藏的translateAnimation
+		TranslateAnimation mUnshowHelpTranslateAnimation = new TranslateAnimation(0.0F, 0.0F, 0.0F, 
+				-40.0F * mGameApplication.density);
+		mUnshowHelpTranslateAnimation.setDuration(300L);
 		mMenuHelpBtn.setVisibility(View.GONE);
-		mMenuHelpBtn.startAnimation(gameTranslateAnimation_help_button_unshow);
+		mMenuHelpBtn.startAnimation(mUnshowHelpTranslateAnimation);
+		
+		// 设置game pause button隐藏的translateAnimation
+		TranslateAnimation mUnshowPauseTranslateAnimation = new TranslateAnimation(0.0F, -45.0F * mGameApplication.density, 
+				0.0F, -40.0F * mGameApplication.density);
+		mUnshowPauseTranslateAnimation.setDuration(300L);
 		mMenuPauseBtn.setVisibility(View.GONE);
-		mMenuPauseBtn.startAnimation(gameTranslateAnimation_pause_button_unshow);
+		mMenuPauseBtn.startAnimation(mUnshowPauseTranslateAnimation);
 	}
 	
 	//判断game apps packageName是否已经运行
@@ -1140,7 +953,7 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 		if(mGameState == TAG_GAME_MAIN_STATE_GAME){
 			mGameState = TAG_GAME_MAIN_STATE_PAUSE;
 			// 对游戏暂停，控制器需要进行的处理函数
-			mGameController.pause();
+			mGameController.setGamePause();
 		}
 	}
 	
@@ -1175,12 +988,12 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 		switch(((Integer)gameView.getTag()).intValue()){
 			//btn setting click, show game setting view
 			case TAG_BTN_SETTINGS_SHOW:
-				showGameSetting();
+				showGameSettings();
 				gameView.setTag(Integer.valueOf(TAG_BTN_SETTINGS_UNSHOW));
 				break;
 			//btn setting click, unshow game setting view
 			case TAG_BTN_SETTINGS_UNSHOW:
-				unShowGameSetting();
+				unShowGameSettings();
 				gameView.setTag(Integer.valueOf(TAG_BTN_SETTINGS_SHOW));
 				break;
 			//btn music click to set game music on
@@ -1200,11 +1013,11 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 			
 			//btn help click to show game help
 			case TAG_BTN_GAME_HELP:
-				showGameHelp();
+				setGameHelpState();
 				break;
 			//btn pause click to set game paused
 			case TAG_BTN_GAME_PAUSE:
-				gamePause();
+				setGamePauseState();
 				break;
 			//tool fresh button click
 			case TAG_BTN_TOOL_REFRESH:
