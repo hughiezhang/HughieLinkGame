@@ -27,7 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="@dimen/dp_02"
+            android:layout_margin="@dimen/dp_02"
             android:background="@drawable/imgv_game_main_pause_apps01"
             />
         <!-- game pause apps02 -->
@@ -36,8 +36,62 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="@dimen/dp_02"
+            android:layout_margin="@dimen/dp_02"
             android:background="@drawable/imgv_game_main_pause_apps02"
             />
+        <!-- game pause apps03 -->
+        <Button 
+            android:id="@+id/game_pause_apps03_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/dp_02"
+            android:background="@drawable/imgv_game_main_pause_apps03"
+            />
+        <!-- game pause apps04 -->
+        <Button 
+            android:id="@+id/game_pause_apps04_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/dp_02"
+            android:background="@drawable/imgv_game_main_pause_apps04"
+            />
+        <!-- game pause apps05 -->
+        <Button 
+            android:id="@+id/game_pause_apps05_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/dp_02"
+            android:background="@drawable/imgv_game_main_pause_apps05"
+            />
     </LinearLayout>
+    <!-- 继续按钮 -->
+    <Button 
+        android:id="@+id/game_pause_resume_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_05"
+        android:layout_marginRight="@dimen/dp_05"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_05"
+        android:background="@drawable/hughie_btn_game_main_resume_selector"
+        />
+    <!-- 重新开始按钮 -->
+    <Button 
+        android:id="@+id/game_pause_replay_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_05"
+        android:background="@drawable/hughie_btn_game_main_replay_selector"
+        />
+    <!-- 菜单按钮 -->
+    <Button 
+        android:id="@+id/game_pause_menu_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_05"
+        android:background="@drawable/hughie_btn_game_main_menu_selector"
+        />
 </LinearLayout>

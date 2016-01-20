@@ -1,16 +1,10 @@
 package com.hughie.linkgame.ui;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
@@ -27,8 +21,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -41,8 +33,11 @@ import com.hughie.linkgame.common.HughieGameApplication;
 import com.hughie.linkgame.common.HughieSPManager;
 import com.hughie.linkgame.utils.HughieActivityUtils;
 import com.hughie.linkgame.utils.HughieGameController;
+import com.hughie.linkgame.utils.HughieGameUtils;
 import com.hughie.linkgame.widget.HughieGameHelpPopupWindow;
 import com.hughie.linkgame.widget.HughieGameHelpPopupWindow.IGameHelpPopupWindowListener;
+import com.hughie.linkgame.widget.HughieGameResumePopupWindow;
+import com.hughie.linkgame.widget.HughieGameResumePopupWindow.OnGamePausePopupWindowListener;
 
 /**
  * 游戏主界面
@@ -55,12 +50,6 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 	
 	public static final String Extra_GameMode = "game_mode";
 	public static final String Extra_GameLevel = "game_level";
-	
-	//game apps packageName数组
-	private String[] app_game_packages = {"com.dotsnumbers", "com.bwdclock", "com.crazybirdscrushsaga",
-			"com.memorypuzzlepro", "com.pandacalculator"};
-	
-	public boolean bGamePauseMusicOn = false;			//游戏音乐在暂停之前是否是打开的
 	
 	private TextView mChallengeTimerTv;					// challenge mode的时间timer
 	private TextView mGameScoreTv;						// 游戏分数textview
@@ -87,14 +76,17 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 	public int mGameFreezeNum;							// 游戏的freeze数量
 	public int mGameScore;									//	游戏的分数
 	
+	public boolean mGamePauseMusicOn = false;	//游戏音乐在暂停之前是否是打开的
+	
 	// 游戏帮助界面弹出的popupwindow
 	private HughieGameHelpPopupWindow mGameHelpPopupWindow;
+	// 游戏暂停界面弹出的popupwindow
+	private HughieGameResumePopupWindow mGameResumePopupWindow;
 	
 	public HughieGameApplication mGameApplication;
 	private Context mContext;
 	// 控制器为静态变量初始化为null，如果检测到其值为null，则说明是第一次运行程序。否则静态变量将保存上次运行的数据
 	private static HughieGameController mGameController = null;
-	
 	
 	public static int mIconsCount = 20;
 	public static Bitmap[] mGameIcons = new Bitmap[mIconsCount];
@@ -224,7 +216,8 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 				new Handler().postDelayed(new Runnable() {
 					@Override
 					public void run() {
-						showGameHelpWindow(TAG_GAME_HELP_STATE_BEGINING);
+//						showGameHelpWindow(TAG_GAME_HELP_STATE_BEGINING);
+						ShowGameFailMenu();
 					}
 				}, 300);
 			} else {
@@ -235,9 +228,10 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 			ShowGameWinMenu();
 //			showGameWinWindow();
 		} else if(gameState == TAG_GAME_MAIN_STATE_LOSE) {
-			ShowGameFailMenu();
+//			ShowGameFailMenu();
 		} else if(gameState == TAG_GAME_MAIN_STATE_PAUSE) {
-			ShowGameResumeMenu();
+			ShowGameResumeWindow();
+//			ShowGameResumeMenu();
 		} else if(gameState == TAG_GAME_MAIN_STATE_HELP) {
 			showGameHelpWindow(TAG_GAME_HELP_STATE_MENU);
 		}
@@ -425,17 +419,17 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 		
 		//设置游戏的完成状态
 		if(mGameFinishStatus == TAG_GAME_MAIN_STATUS_WIN_STAR1){
-			imgv_game_win_star1.setBackgroundResource(R.drawable.imgv_game_main_win_star_checked);
-			imgv_game_win_star2.setBackgroundResource(R.drawable.imgv_game_main_win_star_unchecked);
-			imgv_game_win_star3.setBackgroundResource(R.drawable.imgv_game_main_win_star_unchecked);
+			imgv_game_win_star1.setBackgroundResource(R.drawable.imgv_game_main_star_checked);
+			imgv_game_win_star2.setBackgroundResource(R.drawable.imgv_game_main_star_unchecked);
+			imgv_game_win_star3.setBackgroundResource(R.drawable.imgv_game_main_star_unchecked);
 		}else if(mGameFinishStatus == TAG_GAME_MAIN_STATUS_WIN_STAR2){
-			imgv_game_win_star1.setBackgroundResource(R.drawable.imgv_game_main_win_star_checked);
-			imgv_game_win_star2.setBackgroundResource(R.drawable.imgv_game_main_win_star_checked);
-			imgv_game_win_star3.setBackgroundResource(R.drawable.imgv_game_main_win_star_unchecked);
+			imgv_game_win_star1.setBackgroundResource(R.drawable.imgv_game_main_star_checked);
+			imgv_game_win_star2.setBackgroundResource(R.drawable.imgv_game_main_star_checked);
+			imgv_game_win_star3.setBackgroundResource(R.drawable.imgv_game_main_star_unchecked);
 		}else if(mGameFinishStatus == TAG_GAME_MAIN_STATUS_WIN_STAR3){
-			imgv_game_win_star1.setBackgroundResource(R.drawable.imgv_game_main_win_star_checked);
-			imgv_game_win_star2.setBackgroundResource(R.drawable.imgv_game_main_win_star_checked);
-			imgv_game_win_star3.setBackgroundResource(R.drawable.imgv_game_main_win_star_checked);
+			imgv_game_win_star1.setBackgroundResource(R.drawable.imgv_game_main_star_checked);
+			imgv_game_win_star2.setBackgroundResource(R.drawable.imgv_game_main_star_checked);
+			imgv_game_win_star3.setBackgroundResource(R.drawable.imgv_game_main_star_checked);
 		}
 		
 		//game win replay button监听器
@@ -540,9 +534,9 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 		imgv_game_fail_anim.setAnimation(fail_translateAnimation);
 		
 		//设置游戏的完成状态
-		imgv_game_fail_star1.setBackgroundResource(R.drawable.imgv_game_main_win_star_unchecked);
-		imgv_game_fail_star2.setBackgroundResource(R.drawable.imgv_game_main_win_star_unchecked);
-		imgv_game_fail_star3.setBackgroundResource(R.drawable.imgv_game_main_win_star_unchecked);
+		imgv_game_fail_star1.setBackgroundResource(R.drawable.imgv_game_main_star_unchecked);
+		imgv_game_fail_star2.setBackgroundResource(R.drawable.imgv_game_main_star_unchecked);
+		imgv_game_fail_star3.setBackgroundResource(R.drawable.imgv_game_main_star_unchecked);
 		
 		//game fail replay button监听器
 		btn_game_fail_replay.setOnClickListener(new OnClickListener(){
@@ -578,199 +572,118 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 		});
 	}
 	
-	//game暂停后显示的操作
-	private void ShowGameResumeMenu(){
-		final AlertDialog dlg_resume = new AlertDialog.Builder(this).setCancelable(false).create();
-		dlg_resume.show();
-		Window resume_window = dlg_resume.getWindow();
-		resume_window.setContentView(R.layout.game_pause_popwindow);
-		
-		if(sp.getBoolean(HughieSPManager.SP_GameBackMusic, true)) {
-			this.bGamePauseMusicOn = true;
-			sp.edit().putBoolean(HughieSPManager.SP_GameBackMusic, false).commit();
-			mGameApplication.mSoundUtils.stopBgMusic();
-			mMenuMusicBtn.setBackgroundResource(R.drawable.hughie_btn_game_main_menu_musicoff_selector);
-			mMenuMusicBtn.setTag(Integer.valueOf(TAG_BTN_GAME_MUSIC_OFF));
+	/**
+	 * @title ShowGameResumeWindow
+	 * @description 游戏的暂停界面
+	 * @param
+	 * @return 
+	 */
+	private void ShowGameResumeWindow() {
+		if(mGameResumePopupWindow == null) {
+			mGameResumePopupWindow = new HughieGameResumePopupWindow(mContext);
+			mGameResumePopupWindow.setOnGamePausePopupWindowListener(new OnGamePausePopupWindowListener() {
+				@Override
+				public void onGamePauseDataCommand() {
+					if(sp.getBoolean(HughieSPManager.SP_GameBackMusic, true)) {
+						mGamePauseMusicOn = true;
+						sp.edit().putBoolean(HughieSPManager.SP_GameBackMusic, false).commit();
+						mGameApplication.mSoundUtils.stopBgMusic();
+						mMenuMusicBtn.setBackgroundResource(R.drawable.hughie_btn_game_main_menu_musicoff_selector);
+						mMenuMusicBtn.setTag(Integer.valueOf(TAG_BTN_GAME_MUSIC_OFF));
+					}
+				}
+				
+				@Override
+				public void onGamePauseApps01Click() {
+					mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + HughieGameUtils.mGamePauseAppsPackageName[0])));
+				}
+				
+				@Override
+				public void onGamePauseApps02Click() {
+					mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + HughieGameUtils.mGamePauseAppsPackageName[1])));
+				}
+				
+				@Override
+				public void onGamePauseApps03Click() {
+					mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + HughieGameUtils.mGamePauseAppsPackageName[2])));
+				}
+				
+				@Override
+				public void onGamePauseApps04Click() {
+					mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + HughieGameUtils.mGamePauseAppsPackageName[3])));
+				}
+				
+				@Override
+				public void onGamePauseApps05Click() {
+					mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + HughieGameUtils.mGamePauseAppsPackageName[4])));
+				}
+
+				@Override
+				public void onGamePauseResumeClick() {
+					mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
+					mGameResumePopupWindow.dismiss();
+					
+					if(!sp.getBoolean(HughieSPManager.SP_GameBackMusic, true) && mGamePauseMusicOn) {
+						mGamePauseMusicOn = false;
+						sp.edit().putBoolean(HughieSPManager.SP_GameBackMusic, true).commit();
+						mGameApplication.mSoundUtils.playBgGameMusic();
+						mMenuMusicBtn.setBackgroundResource(R.drawable.hughie_btn_game_main_menu_musicon_selector);
+						mMenuMusicBtn.setTag(Integer.valueOf(TAG_BTN_GAME_MUSIC_ON));
+					}
+					
+					mGameController.resumeGame(HughieGameMainActivity.this);
+				}
+
+				@Override
+				public void onGamePauseReplayClick() {
+					mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
+					mGameResumePopupWindow.dismiss();
+					
+					if(!sp.getBoolean(HughieSPManager.SP_GameBackMusic, true) && mGamePauseMusicOn) {
+						mGamePauseMusicOn = false;
+						sp.edit().putBoolean(HughieSPManager.SP_GameBackMusic, true).commit();
+						mGameApplication.mSoundUtils.playBgGameMusic();
+						mMenuMusicBtn.setBackgroundResource(R.drawable.hughie_btn_game_main_menu_musicon_selector);
+						mMenuMusicBtn.setTag(Integer.valueOf(TAG_BTN_GAME_MUSIC_ON));
+					}
+					
+					// 将游戏的分数清0并保存
+					sp.edit().putInt(HughieSPManager.SP_GameScore, 0).commit();
+					mGameScore = sp.getInt(HughieSPManager.SP_GameScore, 0);
+					mGameScoreTv.setText(String.valueOf(mGameScore));
+					
+					loadGameMainViews(TAG_GAME_MAIN_STATE_GAME);
+				}
+
+				@Override
+				public void onGamePauseMenuClick() {
+					mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
+					mGameResumePopupWindow.dismiss();
+					
+					if(!sp.getBoolean(HughieSPManager.SP_GameBackMusic, true) && mGamePauseMusicOn) {
+						mGamePauseMusicOn = false;
+						sp.edit().putBoolean(HughieSPManager.SP_GameBackMusic, true).commit();
+						mGameApplication.mSoundUtils.playBgGameMusic();
+						mMenuMusicBtn.setBackgroundResource(R.drawable.hughie_btn_game_main_menu_musicon_selector);
+						mMenuMusicBtn.setTag(Integer.valueOf(TAG_BTN_GAME_MUSIC_ON));
+					}
+					
+					// 将游戏的分数清0并保存
+					sp.edit().putInt(HughieSPManager.SP_GameScore, 0).commit();
+					mGameScore = sp.getInt(HughieSPManager.SP_GameScore, 0);
+					mGameScoreTv.setText(String.valueOf(mGameScore));
+					
+					finish();
+				}
+			});
 		}
 		
-		//button pause app1
-		Button btn_game_pause_app1 = (Button)resume_window.findViewById(R.id.btn_game_pause_app1);
-		//button pause app2
-		Button btn_game_pause_app2 = (Button)resume_window.findViewById(R.id.btn_game_pause_app2);
-		//button pause app3
-		Button btn_game_pause_app3 = (Button)resume_window.findViewById(R.id.btn_game_pause_app3);
-		//button pause app4
-		Button btn_game_pause_app4 = (Button)resume_window.findViewById(R.id.btn_game_pause_app4);
-		//button pause app5
-		Button btn_game_pause_app5 = (Button)resume_window.findViewById(R.id.btn_game_pause_app5);
-		//button pause resume
-		Button btn_game_pause_resume = (Button)resume_window.findViewById(R.id.btn_game_pause_resume);
-		//button pause replay
-		Button btn_game_pause_replay = (Button)resume_window.findViewById(R.id.btn_game_pause_replay);
-		//button pause menu
-		Button btn_game_pause_menu = (Button)resume_window.findViewById(R.id.btn_game_pause_menu);
-		
-		LinearLayout game_pause_popupwindow = (LinearLayout)resume_window.findViewById(R.id.game_pause_popupwindow);
-		LayoutParams sq_layout_pause_para = game_pause_popupwindow.getLayoutParams();
-		sq_layout_pause_para.width = mGameApplication.displayWidth - 5;
-		sq_layout_pause_para.height = mGameApplication.displayHeight - 5;
-		game_pause_popupwindow.setLayoutParams(sq_layout_pause_para);
-		
-		//设置app tween动画
-		Animation animation_game_app = AnimationUtils.loadAnimation(HughieGameMainActivity.this, R.anim.hughie_anim_game_main_apps);
-		btn_game_pause_app1.setAnimation(animation_game_app);
-		btn_game_pause_app2.setAnimation(animation_game_app);
-		btn_game_pause_app3.setAnimation(animation_game_app);
-		btn_game_pause_app4.setAnimation(animation_game_app);
-		btn_game_pause_app5.setAnimation(animation_game_app);
-		
-		if(isRunGameApp(app_game_packages[0]))
-			btn_game_pause_app1.setVisibility(View.GONE);
-		if(isRunGameApp(app_game_packages[1]))
-			btn_game_pause_app2.setVisibility(View.GONE);
-		if(isRunGameApp(app_game_packages[2]))
-			btn_game_pause_app3.setVisibility(View.GONE);
-		if(isRunGameApp(app_game_packages[3]))
-			btn_game_pause_app4.setVisibility(View.GONE);
-		if(isRunGameApp(app_game_packages[4]))
-			btn_game_pause_app5.setVisibility(View.GONE);
-		
-		//button pause app1监听
-		btn_game_pause_app1.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
-				String game_link_app1 = "market://details?id=" + app_game_packages[0];
-				Uri game_uri_app1 = Uri.parse(game_link_app1);
-				Intent intent_game_app1 = new Intent(Intent.ACTION_VIEW, game_uri_app1);
-				startActivity(intent_game_app1);
-			}
-		});
-		
-		//button pause app2
-		btn_game_pause_app2.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
-				String game_link_app2 = "market://details?id=" + app_game_packages[1];
-				Uri game_uri_app2 = Uri.parse(game_link_app2);
-				Intent intent_game_app2 = new Intent(Intent.ACTION_VIEW, game_uri_app2);
-				startActivity(intent_game_app2);
-			}
-		});
-		
-		//button pause app3
-		btn_game_pause_app3.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
-				String game_link_app3 = "market://details?id=" + app_game_packages[2];
-				Uri game_uri_app3 = Uri.parse(game_link_app3);
-				Intent intent_game_app3 = new Intent(Intent.ACTION_VIEW, game_uri_app3);
-				startActivity(intent_game_app3);
-			}
-		});
-		
-		//button pause app4
-		btn_game_pause_app4.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
-				String game_link_app4 = "market://details?id=" + app_game_packages[3];
-				Uri game_uri_app4 = Uri.parse(game_link_app4);
-				Intent intent_game_app4 = new Intent(Intent.ACTION_VIEW, game_uri_app4);
-				startActivity(intent_game_app4);
-			}
-		});
-		
-		//button pause app5
-		btn_game_pause_app5.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
-				String game_link_app5 = "market://details?id=" + app_game_packages[4];
-				Uri game_uri_app5 = Uri.parse(game_link_app5);
-				Intent intent_game_app5 = new Intent(Intent.ACTION_VIEW, game_uri_app5);
-				startActivity(intent_game_app5);
-			}
-		});
-		
-		//button pause resume
-		btn_game_pause_resume.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
-				dlg_resume.cancel();
-				
-				if(bGamePauseMusicOn == true && sp.getBoolean(HughieSPManager.SP_GameBackMusic, true) == false){
-					bGamePauseMusicOn = false;
-					sp.edit().putBoolean(HughieSPManager.SP_GameBackMusic, true).commit();
-					mGameApplication.mSoundUtils.playBgGameMusic();
-					mMenuMusicBtn.setBackgroundResource(R.drawable.hughie_btn_game_main_menu_musicon_selector);
-					mMenuMusicBtn.setTag(Integer.valueOf(TAG_BTN_GAME_MUSIC_ON));
-				}
-				
-				mGameController.resumeGame(HughieGameMainActivity.this);
-			}
-		});
-		
-		//button pause replay
-		btn_game_pause_replay.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
-				dlg_resume.cancel();
-				
-				if(bGamePauseMusicOn == true && sp.getBoolean(HughieSPManager.SP_GameBackMusic, true) == false){
-					bGamePauseMusicOn = false;
-					sp.edit().putBoolean(HughieSPManager.SP_GameBackMusic, true).commit();
-					mGameApplication.mSoundUtils.playBgGameMusic();
-					mMenuMusicBtn.setBackgroundResource(R.drawable.hughie_btn_game_main_menu_musicon_selector);
-					mMenuMusicBtn.setTag(Integer.valueOf(TAG_BTN_GAME_MUSIC_ON));
-				}
-				
-				//将game score清零并保存
-				sp.edit().putInt(HughieSPManager.SP_GameScore, 0).commit();
-				//进行游戏开始前，获取sharepreference中的分数数据
-				mGameScore = sp.getInt(HughieSPManager.SP_GameScore, 0);
-				mGameScoreTv.setText(String.valueOf(mGameScore));
-				
-				loadGameMainViews(TAG_GAME_MAIN_STATE_GAME);
-			}
-		});
-		
-		//btn pause menu
-		btn_game_pause_menu.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
-				dlg_resume.cancel();
-				
-				if(bGamePauseMusicOn == true && sp.getBoolean(HughieSPManager.SP_GameBackMusic, true) == false){
-					bGamePauseMusicOn = false;
-					sp.edit().putBoolean(HughieSPManager.SP_GameBackMusic, true).commit();
-					mGameApplication.mSoundUtils.playBgGameMusic();
-					mMenuMusicBtn.setBackgroundResource(R.drawable.hughie_btn_game_main_menu_musicon_selector);
-					mMenuMusicBtn.setTag(Integer.valueOf(TAG_BTN_GAME_MUSIC_ON));
-				}
-				
-				//将game score清零并保存
-				sp.edit().putInt(HughieSPManager.SP_GameScore, 0).commit();
-				//进行游戏开始前，获取sharepreference中的分数数据
-				mGameScore = sp.getInt(HughieSPManager.SP_GameScore, 0);
-				mGameScoreTv.setText(String.valueOf(mGameScore));
-				
-				finish();
-			}
-		});
+		mGameResumePopupWindow.showAtLocation(((Activity) mContext).findViewById(R.id.game_main_layout), Gravity.TOP, 0, 0);
 	}
 	
 	/**
@@ -923,29 +836,6 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 		mMenuPauseBtn.startAnimation(mUnshowPauseTranslateAnimation);
 	}
 	
-	//判断game apps packageName是否已经运行
-	private boolean isRunGameApp(String packageName){
-		PackageInfo pi;
-		try{
-			pi = getPackageManager().getPackageInfo(packageName, 0);
-			Intent resolveIntent = new Intent(Intent.ACTION_MAIN, null);
-			resolveIntent.setPackage(packageName);
-			PackageManager pManager = getPackageManager();
-			List<ResolveInfo> apps = pManager.queryIntentActivities(resolveIntent, 0);
-			
-			ResolveInfo ri = apps.iterator().next();
-			if(ri != null){
-				return true;
-			}else{
-				return false;
-			}
-		}catch(NameNotFoundException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-	}
-	
 	//如果游戏中按了home键或则其他按键切换到了其他的activity中，则要自动暂停游戏。再次进入是可以继续玩
 	public void onPause(){
 		super.onPause();
@@ -982,7 +872,6 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 
 	@Override
 	public void onClick(View gameView) {
-		// TODO Auto-generated method stub
 		this.mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
 		
 		switch(((Integer)gameView.getTag()).intValue()){

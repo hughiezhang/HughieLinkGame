@@ -32,21 +32,21 @@
             android:id="@+id/imgv_win_popup_star1"
             android:layout_width="wrap_content" 
             android:layout_height="wrap_content"
-            android:background="@drawable/imgv_game_main_win_star_unchecked"
+            android:background="@drawable/imgv_game_main_star_unchecked"
             />
         <!-- image star2 -->
         <ImageView 
             android:id="@+id/imgv_win_popup_star2"
             android:layout_width="wrap_content" 
             android:layout_height="wrap_content"
-            android:background="@drawable/imgv_game_main_win_star_unchecked"
+            android:background="@drawable/imgv_game_main_star_unchecked"
             />
         <!-- image star3 -->
         <ImageView 
             android:id="@+id/imgv_win_popup_star3"
             android:layout_width="wrap_content" 
             android:layout_height="wrap_content"
-            android:background="@drawable/imgv_game_main_win_star_unchecked"
+            android:background="@drawable/imgv_game_main_star_unchecked"
             />
     </LinearLayout>
     <!-- image popup button -->
