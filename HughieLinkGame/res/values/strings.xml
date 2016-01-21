@@ -52,4 +52,7 @@
     <string name="str_game_main_toast_hint_content_txt">Sorry, you have no hint!</string>
     <string name="str_game_main_toast_freeze_content_txt">Sorry, you have no freeze!</string>
     <string name="str_game_main_toast_freeze_in_time_content_txt">Sorry, your freeze is not out of time, pls click it later!</string>
+    
+    <!-- game information -->
+    <string name="null_str"></string>
 </resources>

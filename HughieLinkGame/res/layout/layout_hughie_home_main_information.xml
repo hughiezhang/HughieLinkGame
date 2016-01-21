@@ -8,4 +8,58 @@
     
     <!-- title header -->
     <include layout="@layout/layout_hughie_head" />
+    
+    <FrameLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout 
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:background="#ccffffff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <!-- 滑动tabs布局 -->
+                <com.hughie.linkgame.widget.HughiePagerSlidingTabStrip
+                    xmlns:custom="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/game_home_information_head_tabs"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    custom:indicatorColor="?attr/appMainColor"
+                    custom:indicatorHeight="5dp"
+                    custom:underlineHeight="0dp" 
+                    />
+                <!-- 添加更多tabs按钮 -->
+                <ImageView 
+                    android:id="@+id/game_home_information_more_imgv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/dp_12"
+                    android:paddingRight="@dimen/dp_12"
+                    android:contentDescription="@string/null_str"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/hughie_btn_game_home_information_more_selector"
+                    />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_01"
+                android:background="?attr/appMainColor" />
+            <android.support.v4.view.ViewPager
+                android:id="@+id/game_home_information_content_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
+        <ImageView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/text"
+            android:background="@drawable/imgv_game_tabs_top_background"
+            />
+    </FrameLayout>
 </LinearLayout>

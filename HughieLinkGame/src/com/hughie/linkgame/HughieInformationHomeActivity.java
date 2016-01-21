@@ -1,6 +1,7 @@
 package com.hughie.linkgame;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.hughie.linkgame.base.HughieMainBaseActivity;
 
@@ -15,6 +16,13 @@ public class HughieInformationHomeActivity extends HughieMainBaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_hughie_home_main_information);
-		setTitleTvHead("咨讯");
+		
+		initInformationHomeTitle();  					// 初始化咨讯title
+	}
+	
+	// 初始化咨讯title
+	private void initInformationHomeTitle() {
+		setTitleTvHead(R.string.str_screen_tab_information_txt);
+		setLeftVisibility(View.GONE);
 	}
 }

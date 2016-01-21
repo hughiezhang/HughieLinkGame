@@ -16,4 +16,12 @@
         <attr name="border_inside_color" format="color" />
         <attr name="border_outside_color" format="color" />
     </declare-styleable>
+    
+    <!-- 自定义的tabs -->
+    <declare-styleable name="PagerSlidingTabStrip">
+        <attr name="indicatorColor" format="color" />
+        <attr name="indicatorHeight" format="dimension" />
+        <attr name="underlineHeight" format="dimension" />
+        <attr name="indicatorResource" format="reference" />
+    </declare-styleable>
 </resources>

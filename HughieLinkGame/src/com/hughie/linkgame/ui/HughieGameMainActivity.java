@@ -36,6 +36,8 @@ import com.hughie.linkgame.utils.HughieGameController;
 import com.hughie.linkgame.utils.HughieGameUtils;
 import com.hughie.linkgame.widget.HughieGameHelpPopupWindow;
 import com.hughie.linkgame.widget.HughieGameHelpPopupWindow.IGameHelpPopupWindowListener;
+import com.hughie.linkgame.widget.HughieGameLosePopupWindow;
+import com.hughie.linkgame.widget.HughieGameLosePopupWindow.OnGameLosePopupWindowListener;
 import com.hughie.linkgame.widget.HughieGameResumePopupWindow;
 import com.hughie.linkgame.widget.HughieGameResumePopupWindow.OnGamePausePopupWindowListener;
 
@@ -82,6 +84,8 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 	private HughieGameHelpPopupWindow mGameHelpPopupWindow;
 	// 游戏暂停界面弹出的popupwindow
 	private HughieGameResumePopupWindow mGameResumePopupWindow;
+	// 游戏败局界面弹出的popupWindow
+	private HughieGameLosePopupWindow mGameLosePopupWindow;
 	
 	public HughieGameApplication mGameApplication;
 	private Context mContext;
@@ -216,8 +220,7 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 				new Handler().postDelayed(new Runnable() {
 					@Override
 					public void run() {
-//						showGameHelpWindow(TAG_GAME_HELP_STATE_BEGINING);
-						ShowGameFailMenu();
+						showGameHelpWindow(TAG_GAME_HELP_STATE_BEGINING);
 					}
 				}, 300);
 			} else {
@@ -228,10 +231,9 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 			ShowGameWinMenu();
 //			showGameWinWindow();
 		} else if(gameState == TAG_GAME_MAIN_STATE_LOSE) {
-//			ShowGameFailMenu();
+			showGameLoseWindow();
 		} else if(gameState == TAG_GAME_MAIN_STATE_PAUSE) {
 			ShowGameResumeWindow();
-//			ShowGameResumeMenu();
 		} else if(gameState == TAG_GAME_MAIN_STATE_HELP) {
 			showGameHelpWindow(TAG_GAME_HELP_STATE_MENU);
 		}
@@ -482,94 +484,59 @@ public class HughieGameMainActivity extends HughieBaseActivity implements
 		});
 	}
 	
-	//游戏失败后显示的操作
-	private void ShowGameFailMenu(){
-		final AlertDialog dlg_fail = new AlertDialog.Builder(this).setCancelable(false).create();
-		dlg_fail.show();
-		Window fail_window = dlg_fail.getWindow();
-		fail_window.setContentView(R.layout.game_fail_popwindow);
-		
-		//image fail anim
-		ImageView imgv_game_fail_anim = (ImageView)fail_window.findViewById(R.id.imgv_fail_popup_anim);
-		//image fail star1
-		ImageView imgv_game_fail_star1 = (ImageView)fail_window.findViewById(R.id.imgv_fail_popup_star1);
-		//image fail star2
-		ImageView imgv_game_fail_star2 = (ImageView)fail_window.findViewById(R.id.imgv_fail_popup_star2);
-		//image fail star3
-		ImageView imgv_game_fail_star3 = (ImageView)fail_window.findViewById(R.id.imgv_fail_popup_star3);
-		//button fail replay
-		Button btn_game_fail_replay = (Button)fail_window.findViewById(R.id.btn_fail_popup_replay);
-		//button fail menu
-		Button btn_game_fail_menu = (Button)fail_window.findViewById(R.id.btn_fail_popup_menu);
-		
-		mGameScore = sp.getInt(HughieSPManager.SP_GameScore, 0);
-		mGameScoreTv.setText(String.valueOf(this.mGameScore));
-		
-		LinearLayout game_fail_popupwindow = (LinearLayout)fail_window.findViewById(R.id.game_fail_popupwindow);
-		LayoutParams sq_layout_fail_para = game_fail_popupwindow.getLayoutParams();
-		sq_layout_fail_para.width = mGameApplication.displayWidth - 5;
-		sq_layout_fail_para.height = mGameApplication.displayHeight - 5;
-		game_fail_popupwindow.setLayoutParams(sq_layout_fail_para);
-		mGameApplication.mSoundUtils.playGameSoundByid(2, 0);
-		
-		//设置image fail anim动画
-		imgv_game_fail_anim.setBackgroundResource(R.anim.hughie_anim_game_lose_popupwindow);
-		final AnimationDrawable fail_animationDrawable = (AnimationDrawable)imgv_game_fail_anim.getBackground();
-		imgv_game_fail_anim.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-			boolean mFailFirst = true;
-			@Override
-			public boolean onPreDraw() {
-				// TODO Auto-generated method stub
-				if(this.mFailFirst){
-					fail_animationDrawable.start();
-					this.mFailFirst = false;
+	/**
+	 * @title showGameLoseWindow
+	 * @description 游戏败局的界面
+	 * @param
+	 * @return 
+	 */
+	private void showGameLoseWindow() {
+		if(mGameLosePopupWindow == null) {
+			mGameLosePopupWindow = new HughieGameLosePopupWindow(mContext, this);
+			mGameLosePopupWindow.setOnGameLosePopupWindowListener(new OnGameLosePopupWindowListener() {
+				@Override
+				public void onGameLoseMusicPlay() {
+					// 败局失败的音乐播放
+					mGameApplication.mSoundUtils.playGameSoundByid(2, 0);
 				}
 				
-				return true;
-			}
-		});
-		
-		TranslateAnimation fail_translateAnimation = new TranslateAnimation(-400.0F, 0.0F, 0.0F, 0.0F);
-		fail_translateAnimation.setDuration(1000L);
-		imgv_game_fail_anim.setAnimation(fail_translateAnimation);
-		
-		//设置游戏的完成状态
-		imgv_game_fail_star1.setBackgroundResource(R.drawable.imgv_game_main_star_unchecked);
-		imgv_game_fail_star2.setBackgroundResource(R.drawable.imgv_game_main_star_unchecked);
-		imgv_game_fail_star3.setBackgroundResource(R.drawable.imgv_game_main_star_unchecked);
-		
-		//game fail replay button监听器
-		btn_game_fail_replay.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
-				dlg_fail.cancel();
-				//将game score清零并保存
-				sp.edit().putInt(HughieSPManager.SP_GameScore, 0).commit();
-				//进行游戏开始前，获取sharepreference中的分数数据
-				mGameScore = sp.getInt(HughieSPManager.SP_GameScore, 0);
-				mGameScoreTv.setText(String.valueOf(mGameScore));
+				@Override
+				public void onGameLoseDataCommand() {
+					mGameScore = sp.getInt(HughieSPManager.SP_GameScore, 0);
+					mGameScoreTv.setText(String.valueOf(mGameScore));
+				}
 				
-				loadGameMainViews(TAG_GAME_MAIN_STATE_GAME);
-			}
-		});
-		
-		//game fail menu button监听器 
-		btn_game_fail_menu.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
-				dlg_fail.cancel();
-				//将game score清零并保存
-				sp.edit().putInt(HughieSPManager.SP_GameScore, 0).commit();
-				//进行游戏开始前，获取sharepreference中的分数数据
-				mGameScore = sp.getInt(HughieSPManager.SP_GameScore, 0);
-				mGameScoreTv.setText(String.valueOf(mGameScore));
-				finish();
-			}
-		});
+				@Override
+				public void onGameLoseReplayClick() {
+					// 播放点击音乐
+					mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
+					mGameLosePopupWindow.dismiss();
+					// 将mGameScore清零并保存
+					sp.edit().putInt(HughieSPManager.SP_GameScore, 0).commit();
+					// 游戏开始前，获取sharepreference中的分数数据
+					mGameScore = sp.getInt(HughieSPManager.SP_GameScore, 0);
+					mGameScoreTv.setText(String.valueOf(mGameScore));
+					
+					loadGameMainViews(TAG_GAME_MAIN_STATE_GAME);
+				}
+				
+				@Override
+				public void onGameLoseMenuClick() {
+					// 播放点击音乐
+					mGameApplication.mSoundUtils.playGameSoundByid(0, 0);
+					mGameLosePopupWindow.dismiss();
+					// 将mGameScore清零并保存
+					sp.edit().putInt(HughieSPManager.SP_GameScore, 0).commit();
+					// 游戏开始前，获取sharepreference中的分数数据
+					mGameScore = sp.getInt(HughieSPManager.SP_GameScore, 0);
+					mGameScoreTv.setText(String.valueOf(mGameScore));
+					
+					finish();
+				}
+			});
+		}
+		mGameLosePopupWindow.showAtLocation(((Activity)mContext).findViewById(R.id.game_main_layout), 
+				Gravity.TOP|Gravity.LEFT , 0, 0);
 	}
 	
 	/**
