@@ -31,6 +31,8 @@
                     android:layout_weight="1"
                     custom:indicatorColor="?attr/appMainColor"
                     custom:indicatorHeight="5dp"
+                    custom:selectTextColor="?attr/appMainColor"
+                    custom:tabPaddingLeftRight="16dp"
                     custom:underlineHeight="0dp" 
                     />
                 <!-- 添加更多tabs按钮 -->

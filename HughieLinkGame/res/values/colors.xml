@@ -26,5 +26,8 @@
     <color name="sjhy_scale_sel">#2A2A2A</color>
     <!-- 刻度 未选中 -->
     <color name="sjhy_scale">#CCCCCC</color>
+    
+    <!-- sliding tab pressed color -->
+    <color name="color_sliding_tab_pressed_background">#6633B5E5</color>
 </resources>
 
